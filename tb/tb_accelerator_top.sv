@@ -25,18 +25,18 @@ module tb_accelerator_top;
     // Weight configuration port
     logic                                            s_weight_valid;
     logic                                            s_weight_ready;
-    logic signed [DATA_WIDTH-1:0]                    s_weight_data [ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_weight_data;
 
     // Activation input stream
     logic                                            s_axis_tvalid;
     logic                                            s_axis_tready;
-    logic signed [DATA_WIDTH-1:0]                    s_axis_tdata [ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_axis_tdata;
     logic                                            s_axis_tlast;
 
     // Result output stream
     logic                                            m_axis_tvalid;
     logic                                            m_axis_tready;
-    logic signed [ACC_WIDTH-1:0]                     m_axis_tdata [ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     m_axis_tdata;
     logic                                            m_axis_tlast;
 
     // Status
@@ -143,10 +143,8 @@ module tb_accelerator_top;
         s_axis_tvalid  = 0;
         s_axis_tlast   = 0;
         m_axis_tready  = 0;
-        for (int i = 0; i < ARRAY_SIZE; i++) begin
-            s_weight_data[i] = '0;
-            s_axis_tdata[i]  = '0;
-        end
+        s_weight_data  = '0;
+        s_axis_tdata   = '0;
 
         #(CLK_PERIOD * 2);
         @(negedge clk);

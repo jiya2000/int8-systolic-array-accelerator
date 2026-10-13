@@ -1,0 +1,17 @@
+# Script: compare_power_opt.ys
+# Compares baseline PE versus operand-isolated PE logic synthesis
+
+# 1. Synthesize Baseline PE
+read_verilog -sv rtl/pe.sv
+hierarchy -check -top pe
+proc; opt; techmap; opt; synth -top pe
+stat -tech cmos
+write_verilog -noattr build/pe_baseline_synth.v
+clean
+
+# 2. Synthesize with Operand Isolation optimization
+read_verilog -sv rtl/pe.sv
+# Elaborate and inspect cell breakdown
+hierarchy -check -top pe
+proc; opt; techmap; opt; synth -top pe
+stat -tech cmos

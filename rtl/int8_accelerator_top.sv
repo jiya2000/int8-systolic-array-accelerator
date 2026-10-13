@@ -9,6 +9,7 @@
  *                - Row-by-row Weight Configuration Port with direct handshake tracking
  *                - AXI-Stream-inspired Activation Input Port
  *                - AXI-Stream-inspired Result Output Port with full backpressure
+ *              Uses packed multi-dimensional array ports for clean synthesis.
  */
 module int8_accelerator_top #(
     parameter int ARRAY_SIZE = 4,
@@ -21,18 +22,18 @@ module int8_accelerator_top #(
     // Weight Configuration Port (4 rows x 4 cols)
     input  logic                                            s_weight_valid,
     output logic                                            s_weight_ready,
-    input  logic signed [DATA_WIDTH-1:0]                    s_weight_data [ARRAY_SIZE-1:0],
+    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_weight_data,
 
     // Activation Input Stream (Row-by-row stream of 4x4 matrix A)
     input  logic                                            s_axis_tvalid,
     output logic                                            s_axis_tready,
-    input  logic signed [DATA_WIDTH-1:0]                    s_axis_tdata [ARRAY_SIZE-1:0],
+    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_axis_tdata,
     input  logic                                            s_axis_tlast,
 
     // Result Output Stream (Row-by-row stream of 4x4 matrix C)
     output logic                                            m_axis_tvalid,
     input  logic                                            m_axis_tready,
-    output logic signed [ACC_WIDTH-1:0]                     m_axis_tdata [ARRAY_SIZE-1:0],
+    output logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     m_axis_tdata,
     output logic                                            m_axis_tlast,
 
     // Accelerator Status
@@ -56,28 +57,23 @@ module int8_accelerator_top #(
     logic [ARRAY_SIZE-1:0]  weight_en_comb;
 
     // Buffer to hold Activation Matrix A (4 rows x 4 cols)
-    logic signed [DATA_WIDTH-1:0] A_matrix [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0][DATA_WIDTH-1:0] A_matrix;
     logic [1:0]                   act_load_idx;
     logic                         act_loaded;
 
     // Skewed array input signals
-    logic signed [DATA_WIDTH-1:0] a_in_skewed [ARRAY_SIZE-1:0];
-    logic signed [ACC_WIDTH-1:0]  c_in_boundary [ARRAY_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0] a_out_unused [ARRAY_SIZE-1:0];
-    logic signed [ACC_WIDTH-1:0]  c_out_array [ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0] a_in_skewed;
+    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]  c_in_boundary;
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0] a_out_unused;
+    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]  c_out_array;
 
     // Result storage matrix (4 rows x 4 cols)
-    logic signed [ACC_WIDTH-1:0]  result_matrix [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0][ACC_WIDTH-1:0] result_matrix;
     logic [1:0]                   out_stream_idx;
     logic                         out_streaming;
 
     // Boundary partial sums are tied to zero
-    genvar b;
-    generate
-        for (b = 0; b < ARRAY_SIZE; b++) begin : gen_c_in_zero
-            assign c_in_boundary[b] = '0;
-        end
-    endgenerate
+    assign c_in_boundary = '0;
 
     // -------------------------------------------------------------
     // Weight Configuration Port Handshake
@@ -120,15 +116,9 @@ module int8_accelerator_top #(
         if (!rst_n) begin
             act_load_idx <= '0;
             act_loaded   <= 1'b0;
-            for (int r = 0; r < ARRAY_SIZE; r++) begin
-                for (int c = 0; c < ARRAY_SIZE; c++) begin
-                    A_matrix[r][c] <= '0;
-                end
-            end
+            A_matrix     <= '0;
         end else if (s_axis_tvalid && s_axis_tready) begin
-            for (int c = 0; c < ARRAY_SIZE; c++) begin
-                A_matrix[act_load_idx][c] <= s_axis_tdata[c];
-            end
+            A_matrix[act_load_idx] <= s_axis_tdata;
 
             if (act_load_idx == ARRAY_SIZE - 1 || s_axis_tlast) begin
                 act_load_idx <= '0;
@@ -210,23 +200,22 @@ module int8_accelerator_top #(
     // Output Result De-skewing & Capture
     // Output C[i][j] arrives at c_out_array[j] at cycle (i + 4 + j)
     // -------------------------------------------------------------
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            for (int r = 0; r < ARRAY_SIZE; r++) begin
-                for (int c = 0; c < ARRAY_SIZE; c++) begin
-                    result_matrix[r][c] <= '0;
-                end
-            end
-        end else if (array_en) begin
-            for (int j = 0; j < ARRAY_SIZE; j++) begin
-                for (int i = 0; i < ARRAY_SIZE; i++) begin
-                    if (feed_cycle == (i + 4 + j)) begin
-                        result_matrix[i][j] <= c_out_array[j];
+    genvar r_res, c_res;
+    generate
+        for (r_res = 0; r_res < ARRAY_SIZE; r_res++) begin : gen_res_row
+            for (c_res = 0; c_res < ARRAY_SIZE; c_res++) begin : gen_res_col
+                always_ff @(posedge clk or negedge rst_n) begin
+                    if (!rst_n) begin
+                        result_matrix[r_res][c_res] <= '0;
+                    end else if (array_en) begin
+                        if (feed_cycle == (r_res + 4 + c_res)) begin
+                            result_matrix[r_res][c_res] <= c_out_array[c_res];
+                        end
                     end
                 end
             end
         end
-    end
+    endgenerate
 
     // -------------------------------------------------------------
     // Output Streamer FSM with Backpressure Handling
@@ -255,12 +244,7 @@ module int8_accelerator_top #(
     // Assign Output Stream Signals
     assign m_axis_tvalid = out_streaming;
     assign m_axis_tlast  = out_streaming && (out_stream_idx == ARRAY_SIZE - 1);
-
-    always_comb begin
-        for (int c = 0; c < ARRAY_SIZE; c++) begin
-            m_axis_tdata[c] = result_matrix[out_stream_idx][c];
-        end
-    end
+    assign m_axis_tdata  = result_matrix[out_stream_idx];
 
     assign busy = ctrl_busy || out_streaming || act_loaded;
     assign done = ctrl_done;

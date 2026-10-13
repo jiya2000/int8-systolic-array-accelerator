@@ -1,0 +1,9 @@
+SIM ?= icarus
+TOPLEVEL_LANG ?= verilog
+VERILOG_SOURCES = $(shell pwd)/rtl/pe.sv
+TOPLEVEL = pe
+MODULE = test_pe
+PYTHONPATH := $(shell pwd)/tb:$(PYTHONPATH)
+export PYTHONPATH
+
+include $(shell cocotb-config --makefiles)/Makefile.sim

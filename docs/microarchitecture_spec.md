@@ -1,106 +1,232 @@
-# Micro-Architecture Specification: INT8 Systolic Array Processing Element (PE)
+# Micro-Architecture Specification: INT8 Systolic Array Accelerator IP
 
-**Version:** 1.1  
-**Target:** High-Throughput Deep Learning Inference Compute Unit (Stage 1)  
-**Implementation Language:** Synthesizable SystemVerilog (IEEE 1800-2017)
+**Document Version:** 2.0  
+**Target:** High-Throughput Deep Learning Inference Accelerator IP  
+**Standard:** IEEE 1800-2017 SystemVerilog (Synthesizable RTL)  
+**Reference Design:** 4×4 Weight-Stationary (WS) 2D Systolic Array  
 
 ---
 
-## 1. Architectural Overview & Dataflow
+## 1. Executive Summary & Architectural Overview
 
-The **Processing Element (PE)** is the fundamental compute tile of a 2D **Weight-Stationary (WS)** Systolic Array. In deep learning inference workloads (e.g., GEMM, convolution, projection layers), stationary weights maximize energy efficiency by eliminating repetitive weight loads from SRAM or global memory.
+The **INT8 Systolic Array Accelerator IP** is a synthesizable, high-efficiency digital compute block optimized for General Matrix Multiplication (GEMM) operations in deep learning inference workloads. The micro-architecture employs a **2D Weight-Stationary (WS)** dataflow that minimizes SRAM memory bandwidth by keeping weights stationary inside processing element (PE) registers while activations stream horizontally (West-to-East) and partial sums accumulate vertically (North-to-South).
+
+### Primary Architectural Highlights:
+1. **Arithmetic Precision:** Signed 8-bit two's complement inputs ($A \in [-128, 127]$, $W \in [-128, 127]$) producing exact 16-bit signed products, accumulated in 32-bit signed registers ($C \in [-2^{31}, 2^{31}-1]$) with standard modular two's complement wrap-around.
+2. **Pipelined Compute Grid:** Parameterized $4 \times 4$ array of 16 identical PEs. Each PE houses stationary weight storage, signed multiplier, partial sum accumulator, and registered East/South boundary flip-flops.
+3. **Streaming Interface:** AXI-Stream-inspired input and output interfaces (`tvalid`, `tready`, `tdata`, `tlast`) supporting backpressure handling and stall tolerance.
+4. **Autonomous Control FSM:** 4-state controller (`IDLE`, `LOAD_WEIGHTS`, `FEED_AND_DRAIN`, `COMPLETE`) managing weight programming, activation skew scheduling, and output de-skew collection.
+5. **Synthesis Compatibility:** Universal EDA tool support (Yosys, Synopsys Design Compiler, Cadence Genus) utilizing packed multidimensional arrays for clean elaboration without flattened port mismatches.
+
+---
+
+## 2. Top-Level IP Architecture
+
+The top-level accelerator IP (`int8_accelerator_top`) integrates the core compute grid with memory buffering, control logic, and streaming interconnects.
 
 ```
-                      Weight Load (Config Phase)
-                            w_in [7:0]
-                                |
-                                v
-               +----------------------------------+
-               |        Stationary Weight         |
-               |          Register (W)            |
-               +----------------+-----------------+
-                                |
-                                v
-Activation In  |---> [ Signed 8x8 Multiplier ]     |
- a_in [7:0]    |                  |                |
-(West Port)    |            16-bit Product         |
-               |                  |                |
-               |                  v                |
-Partial Sum In |---> [ 32-bit Signed Adder ]       |---> Partial Sum Out
- c_in [31:0]   |                  |                |      c_out [31:0]
-(North Port)   |         32-bit Accumulator        |     (South Port)
-               |                  |                |      (Registered)
-               |                  v                |
-               |         [ Output Registers ]      |
-               +------------------+---------------+
-                                  |
-                                  v
-                            Activation Out
-                              a_out [7:0]
-                              (East Port)
-                              (Registered)
+                    +-------------------------------------------------------------+
+                    |                 int8_accelerator_top                        |
+                    |                                                             |
+s_weight_data [3:0] |===> [ Weight Configuration Port ]                           |
+s_weight_valid/ready|       - Row-by-row stationary weight load                   |
+                    |       - Decoded one-hot enables per PE row                  |
+                    |                                                             |
+                    |     +-------------------------------------------------+     |
+s_axis_tdata [3:0]  |===> | Activation Input Buffer (4x4 Matrix A)          |     |
+s_axis_tvalid/ready |     +-------------------------------------------------+     |
+s_axis_tlast        |                       |                                     |
+                    |                       v                                     |
+                    |     +-------------------------------------------------+     |
+                    |     | Activation Skew Generator                       |     |
+                    |     | Row k delayed by k clock cycles                 |     |
+                    |     +-------------------------------------------------+     |
+                    |                       | (a_in)                              |
+                    |                       v                                     |
+                    |     +-------------------------------------------------+     |
+                    |     | 4x4 Weight-Stationary Systolic Array Grid       |     |
+                    |     | 16 PEs (West->East Activations, North->South Psum)|     |
+                    |     +-------------------------------------------------+     |
+                    |                       | (c_out)                             |
+                    |                       v                                     |
+                    |     +-------------------------------------------------+     |
+                    |     | Output De-skew & Capture Logic                  |     |
+                    |     | Captures C[i][j] at cycle (i + 4 + j)           |     |
+                    |     +-------------------------------------------------+     |
+                    |                       |                                     |
+                    |                       v                                     |
+                    |     +-------------------------------------------------+     |
+                    |     | Output Streaming Engine (AXI-Stream Slave Ready)|     |
+m_axis_tvalid/ready | <===|   - Row-by-row readout                          |     |
+m_axis_tdata [3:0]  |     |   - Supports downstream stalls and backpressure |     |
+m_axis_tlast        |     +-------------------------------------------------+     |
+                    |                                                             |
+                    |  +-------------------------------------------------------+  |
+clk, rst_n          |  | FSM Accelerator Controller                            |  |
+busy, done          |  | Manages compute cycle count, enables, and status flags |  |
+                    |  +-------------------------------------------------------+  |
+                    +-------------------------------------------------------------+
 ```
 
-### Key Design Principles:
-1. **Signed Two's Complement Arithmetic:** Inputs $A$ and $W$ are 8-bit signed values (`signed [7:0]`), ranging from $-128$ to $+127$.
-2. **Product Precision:**
-   - An $8 \times 8$ signed multiplication produces a 16-bit signed product (`signed [15:0]`).
-   - Extreme negative corner case: $(-128) \times (-128) = +16,384$ (`0x4000`), which fits within a 16-bit signed integer.
-3. **Partial Sum Propagation:**
-   - $c\_out$ is a **registered partial-sum result passed to the south neighbor**, not a feedback accumulator internal to the PE.
-   - The product is sign-extended to 32 bits and added to $c\_in$.
-   - **Overflow Semantics:** 32-bit accumulation wraps around in standard two's complement arithmetic unless saturation is deliberately added.
-4. **Pipelining & Systolic Propagation:**
-   - Both $a\_out$ (moving East) and $c\_out$ (moving South) are strictly registered at the positive clock edge to break combinational paths and ensure high $F_{max}$.
+---
+
+## 3. Submodule Specifications
+
+### 3.1 Processing Element (`pe.sv`)
+
+The PE is the foundational leaf cell. Each PE contains:
+- **Stationary Weight Register (`weight_reg`):** Holds an 8-bit signed weight.
+- **Signed Multiplier:** Computes 16-bit signed product $P = A \times W$.
+- **32-Bit Adder:** Computes $P_{ext} + c\_in$, where $P_{ext} = \text{sign\_extend}_{32}(P)$.
+- **Registered Outputs:** `a_out` (passes activation East) and `c_out` (passes partial sum South).
+
+```
+                      w_in [7:0]
+                          |
+                          v
+               +----------------------+
+               |  Stationary Weight   |
+               |     Register (W)     |
+               +----------+-----------+
+                          |
+                          v
+a_in [7:0] ---> [ Signed 8x8 Multiplier ]
+(West)                    |
+                    16-bit Product
+                          |
+                          v
+c_in [31:0] --> [ 32-bit Signed Adder ] ----> c_out [31:0]
+(North)                   |                   (South, Registered)
+                          v
+                 [ a_out Register ] ---------> a_out [7:0]
+                                              (East, Registered)
+```
+
+#### Control Priority Hierarchy
+To prevent timing glitches and ensure deterministic behavior across corner cases, the control signals adhere to strict precedence:
+
+1. **`rst_n == 0` (Asynchronous Active-Low Reset):**
+   - Clears `weight_reg <= 8'sd0`, `a_out <= 8'sd0`, `c_out <= 32'sd0`.
+2. **`weight_en == 1` (Weight Configuration):**
+   - Latches `weight_reg <= w_in`.
+   - Datapath holds state (`a_out` and `c_out` remain frozen).
+3. **`weight_en == 0 && en == 0` (Stall / Clock Gating):**
+   - All registers maintain state. Zero dynamic switching activity.
+4. **`weight_en == 0 && en == 1 && clr == 1` (Synchronous Clear):**
+   - `c_out <= 32'sd0` (resets partial sum chain).
+   - `a_out <= a_in` (activation continues flowing).
+5. **`weight_en == 0 && en == 1 && clr == 0` (Active Compute):**
+   - `a_out <= a_in`.
+   - `c_out <= c_in + 32'(signed'(a_in) * signed'(weight_reg))`.
 
 ---
 
-## 2. Port Definitions
+### 3.2 4×4 Systolic Array Grid (`systolic_array.sv`)
 
-| Signal Name | Direction | Width | Type | Description |
-| :--- | :---: | :---: | :---: | :--- |
-| `clk` | Input | 1 | Clock | Master positive-edge clock |
-| `rst_n` | Input | 1 | Async Reset | Active-low asynchronous reset |
-| `weight_en` | Input | 1 | Control | Stationary weight write enable (Highest active priority) |
-| `en` | Input | 1 | Control | Compute datapath enable |
-| `clr` | Input | 1 | Control | Synchronous accumulator clear (overrides accumulation when computing) |
-| `w_in` | Input | 8 | Signed | Weight data input (latched during weight configuration) |
-| `a_in` | Input | 8 | Signed | Activation input from West neighbor |
-| `c_in` | Input | 32 | Signed | Partial sum accumulation input from North neighbor |
-| `a_out` | Output | 8 | Signed | Registered activation passed to East neighbor |
-| `c_out` | Output | 32 | Signed | Registered partial sum passed to South neighbor |
-
----
-
-## 3. Explicit Control Priority & Register Behavior
-
-To guarantee deterministic, glitch-free behavior across all corner cases, the PE sequential registers strictly adhere to the following control priority hierarchy:
-
-| Operating Condition | `weight_reg` | `a_out` | `c_out` | Functional Description |
-| :--- | :---: | :---: | :---: | :--- |
-| **`rst_n == 0`** | `8'sd0` | `8'sd0` | `32'sd0` | Asynchronous power-on / hardware reset |
-| **`weight_en == 1`** | **Load `w_in`** | **Hold** | **Hold** | Weight configuration phase (prioritized over compute) |
-| **`weight_en == 0, en == 0`** | Hold | Hold | Hold | Datapath stall / idle (zero dynamic switching) |
-| **`weight_en == 0, en == 1, clr == 1`** | Hold | Pass `a_in` | **Set to `32'sd0`** | Synchronous clear (resets partial sum chain) |
-| **`weight_en == 0, en == 1, clr == 0`** | Hold | Pass `a_in` | **`c_in + (a_in * weight_reg)`** | Normal active MAC operation |
-
-### Priority Rationales:
-1. **Weight Configuration Isolation:** Asserting `weight_en` halts datapath progression (`a_out` and `c_out` hold). This cleanly decouples the array programming phase from execution.
-2. **Synchronous Clear Definition:** When computing (`en = 1`), asserting `clr = 1` forces $c\_out$ to `0` at the rising clock edge while passing $a\_in \rightarrow a\_out$, enabling systolic pipeline flushing without losing activation alignment.
-3. **Datapath Stalling:** When `en = 0`, all outputs hold their previous values, suppressing dynamic switching activity.
+The array arranges 16 PEs in a $4 \times 4$ 2D mesh:
+- Rows are indexed $r \in [0..3]$, Columns are indexed $c \in [0..3]$.
+- **Activation Flow (Horizontal):**
+  - $a\_wire[r][0] = a\_in[r]$ (West array inputs).
+  - $a\_wire[r][c+1] = PE[r][c].a\_out$.
+  - $a\_out[r] = a\_wire[r][4]$ (East array outputs).
+- **Partial Sum Flow (Vertical):**
+  - $c\_wire[0][c] = c\_in[c]$ (North array inputs, tied to 0 for standard GEMM).
+  - $c\_wire[r+1][c] = PE[r][c].c\_out$.
+  - $c\_out[c] = c\_wire[4][c]$ (South array outputs).
+- **Weight Loading (Row-Broadcast):**
+  - Column inputs $w\_in[c]$ connect to column $c$ across all rows.
+  - One-hot enable $weight\_en[r]$ activates only row $r$ during configuration cycle $r$.
 
 ---
 
-## 4. Arithmetic Corner Cases to Verify
+### 3.3 Streaming Input Buffer FIFO (`input_buffer.sv`)
 
-| Test Case | $a\_in$ | $w\_in$ | $c\_in$ | Expected $c\_out$ | Verification Objective |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **Zero Weight** | $50$ | $0$ | $25$ | $25$ | Multiplication by zero |
-| **Zero Activation** | $0$ | $-128$ | $100$ | $100$ | Zero operand pass-through |
-| **Pos $\times$ Pos** | $+10$ | $+5$ | $0$ | $+50$ | Standard positive quadrant |
-| **Pos $\times$ Neg** | $+12$ | $-4$ | $+10$ | $-38$ | Mixed quadrant multiplication |
-| **Neg $\times$ Neg** | $-7$ | $-8$ | $-20$ | $+36$ | Negative product cancellation |
-| **Max Positive Boundary** | $+127$ | $+127$ | $0$ | $+16,129$ | Positive saturation limits |
-| **Extreme Two's Complement** | $-128$ | $-128$ | $0$ | $+16,384$ | Two's-complement $-2^{7}$ edge case |
-| **Mixed Extreme** | $+127$ | $-128$ | $0$ | $-16,256$ | Negative boundary limit |
-| **Two's Complement Wrap** | $+10$ | $+10$ | `0x7FFFFFF0` | `0x80000054` | 32-bit standard modular overflow |
+The synchronous circular FIFO decouples upstream data production from downstream compute consumption:
+- **Depth:** Parameterized (default 8 entries).
+- **Width:** Parameterized (default 32 bits = 4 packed INT8 values).
+- **Handshaking:** AXI-Stream compatible `s_valid`/`s_ready` (write port) and `m_valid`/`m_ready` (read port).
+- **Simultaneous Access:** Read and write pointers advance concurrently when both interfaces handshake on the same clock edge without losing data integrity or corrupting occupancy counters.
+
+---
+
+### 3.4 Accelerator FSM Controller (`accelerator_controller.sv`)
+
+The controller orchestrates operational phases via a 4-state Mealy/Moore FSM:
+
+```
+                  +--------------+
+                  |     IDLE     | <-------------------------+
+                  +-------+------+                           |
+                          | start_compute                    |
+                          v                                  |
+               +----------------------+                      |
+               |     LOAD_WEIGHTS     |                      |
+               | (Cycles 0..3: Rows)  |                      |
+               +----------+-----------+                      |
+                          | 4 cycles complete                |
+                          v                                  |
+               +----------------------+                      |
+               |    FEED_AND_DRAIN    |                      |
+               | (Cycles 0..15: GEMM) |                      |
+               +----------+-----------+                      |
+                          | Pipeline drain finished          |
+                          v                                  |
+               +----------------------+                      |
+               |       COMPLETE       | ---------------------+
+               +----------------------+   m_axis stream done
+```
+
+- **`IDLE` (State `00`):** Ready for weight configuration or activation streaming.
+- **`LOAD_WEIGHTS` (State `01`):** Steps `cycle_cnt` from 0 to 3, asserting one-hot $weight\_en[r]$ sequentially.
+- **`FEED_AND_DRAIN` (State `10`):** Compute phase. Enables the systolic array datapath (`array_en = 1`) for 16 cycles while tracking activation feed and accumulation drain.
+- **`COMPLETE` (State `11`):** Asserts `ctrl_done`, transitioning to output streaming.
+
+---
+
+## 4. Systolic Timing & Skewing Equations
+
+In a 2D weight-stationary systolic array, compute synchronization requires deliberate spatial data skewing.
+
+### 4.1 Activation Feeding Schedule
+To ensure activation row $A[i]$ meets the correct stationary weight row $B[k]$, input rows must be staggered:
+$$\text{Arrival cycle of } A[i][k] \text{ at array row } k = i + k$$
+Since row $k$ receives $A[i][k]$, row 0 receives data with zero delay, row 1 is delayed by 1 cycle, row 2 by 2 cycles, and row 3 by 3 cycles.
+- Active feeding duration spans 7 clock cycles ($t \in [0..6]$).
+- After cycle 6, inputs are zero-padded to allow partial sums to flush South.
+
+### 4.2 Output Retirement Schedule
+The partial sum for element $C[i][j] = \sum_{k=0}^{3} A[i][k] \times B[k][j]$ accumulates down column $j$:
+- Row 0 calculates $A[i][0] \times B[0][j]$ at cycle $i + 0 + j$.
+- Row 1 accumulates $A[i][1] \times B[1][j]$ at cycle $i + 1 + j$.
+- Row 2 accumulates $A[i][2] \times B[2][j]$ at cycle $i + 2 + j$.
+- Row 3 finalizes $C[i][j]$ at cycle $i + 3 + j$.
+- Registered exit at South port occurs at cycle:
+$$t_{\text{retire}}(i, j) = i + 4 + j$$
+
+#### Cycle Retirement Matrix for $4 \times 4$ Array:
+| Row $i$ \ Col $j$ | Col 0 | Col 1 | Col 2 | Col 3 |
+| :---: | :---: | :---: | :---: | :---: |
+| **Row 0** | Cycle 4 | Cycle 5 | Cycle 6 | Cycle 7 |
+| **Row 1** | Cycle 5 | Cycle 6 | Cycle 7 | Cycle 8 |
+| **Row 2** | Cycle 6 | Cycle 7 | Cycle 8 | Cycle 9 |
+| **Row 3** | Cycle 7 | Cycle 8 | Cycle 9 | Cycle 10 |
+
+The de-skewing logic inside `int8_accelerator_top` samples South port $c\_out[j]$ exactly when `feed_cycle == (i + 4 + j)`, capturing all 16 results into the unskewed result matrix register `result_matrix[i][j]`.
+
+---
+
+## 5. Streaming Output Protocol & Backpressure
+
+Output streaming begins upon completion of compute (`ctrl_done = 1`):
+1. Accelerator asserts `m_axis_tvalid = 1`.
+2. Output matrix rows are streamed sequentially ($r \in [0..3]$).
+3. On the final row ($r = 3$), `m_axis_tlast = 1` asserts.
+4. **Backpressure Compliance:** If the downstream receiver de-asserts `m_axis_tready`, the output engine freezes `out_stream_idx`, holding valid data stable until the receiver resumes ready assertion.
+
+---
+
+## 6. Synthesis Design Rules & Port Convention
+
+To prevent port compatibility issues across EDA synthesis tools:
+- **Packed Array Ports:** Replaced unpacked arrays (`[7:0] data [3:0]`) with packed multi-dimensional vectors (`[3:0][7:0] data`).
+- **Generate Blocks for Part Selects:** Replaced procedural loops with `genvar` generate constructs for multidimensional register slicing, guaranteeing 100% compatibility across Icarus Verilog and Yosys.

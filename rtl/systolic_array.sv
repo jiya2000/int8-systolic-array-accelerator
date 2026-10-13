@@ -4,9 +4,7 @@
  * Module: systolic_array
  * Description: Synthesizable Parameterized 2D Weight-Stationary Systolic Array.
  *              Default configuration: 4x4 Processing Elements (PEs).
- *              Activations flow West-to-East.
- *              Partial sums flow North-to-South.
- *              Weights are pre-loaded per row.
+ *              Uses packed multidimensional arrays for universal EDA synthesis compatibility.
  */
 module systolic_array #(
     parameter int ARRAY_SIZE = 4,
@@ -18,20 +16,19 @@ module systolic_array #(
     input  logic                                            en,          // Global compute enable
     input  logic                                            clr,         // Global accumulator clear
     input  logic [ARRAY_SIZE-1:0]                           weight_en,   // Per-row weight write enable
-    input  logic signed [DATA_WIDTH-1:0]                    w_in  [ARRAY_SIZE-1:0], // Weight columns [0..3]
-    input  logic signed [DATA_WIDTH-1:0]                    a_in  [ARRAY_SIZE-1:0], // West activation inputs [0..3]
-    input  logic signed [ACC_WIDTH-1:0]                     c_in  [ARRAY_SIZE-1:0], // North partial sum inputs [0..3]
-    output logic signed [DATA_WIDTH-1:0]                    a_out [ARRAY_SIZE-1:0], // East activation outputs [0..3]
-    output logic signed [ACC_WIDTH-1:0]                     c_out [ARRAY_SIZE-1:0]  // South partial sum outputs [0..3]
+    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    w_in,        // Weight columns [3:0]
+    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_in,        // West activation inputs [3:0]
+    input  logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_in,        // North partial sum inputs [3:0]
+    output logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_out,       // East activation outputs [3:0]
+    output logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_out        // South partial sum outputs [3:0]
 );
 
-    // Internal activation interconnect: [row][col] where col extends from 0 to ARRAY_SIZE
+    // Internal activation interconnect: a_wire[r][c] where c is from 0 to ARRAY_SIZE
     logic signed [DATA_WIDTH-1:0] a_wire [ARRAY_SIZE-1:0][ARRAY_SIZE:0];
 
-    // Internal partial sum interconnect: [row][col] where row extends from 0 to ARRAY_SIZE
+    // Internal partial sum interconnect: c_wire[r][c] where r is from 0 to ARRAY_SIZE
     logic signed [ACC_WIDTH-1:0]  c_wire [ARRAY_SIZE:0][ARRAY_SIZE-1:0];
 
-    // Connect boundary inputs and outputs
     genvar r, c;
     generate
         // Boundary West and East connections

@@ -1,0 +1,2653 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.69+post (git sha1 143eb14f9cc55d6f8927e68523b0c9d2166ed02c, Release, AppleClang clang++ 21.0.0.21000334)
+
+-- Executing script file `scripts/synth_accelerator.ys' --
+
+1. Executing Verilog-2005 frontend: rtl/pe.sv
+Parsing SystemVerilog input from `rtl/pe.sv' to AST representation.
+Generating RTLIL representation for module `\pe'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/systolic_array.sv
+Parsing SystemVerilog input from `rtl/systolic_array.sv' to AST representation.
+Generating RTLIL representation for module `\systolic_array'.
+Warning: Replacing memory \c_wire with list of registers. See rtl/systolic_array.sv:42
+Warning: Replacing memory \a_wire with list of registers. See rtl/systolic_array.sv:36
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/accelerator_controller.sv
+Parsing SystemVerilog input from `rtl/accelerator_controller.sv' to AST representation.
+Generating RTLIL representation for module `\accelerator_controller'.
+Successfully finished Verilog frontend.
+
+4. Executing Verilog-2005 frontend: rtl/int8_accelerator_top.sv
+Parsing SystemVerilog input from `rtl/int8_accelerator_top.sv' to AST representation.
+Generating RTLIL representation for module `\int8_accelerator_top'.
+Successfully finished Verilog frontend.
+
+5. Executing HIERARCHY pass (managing design hierarchy).
+
+5.1. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     \systolic_array
+Used module:         \pe
+Used module:     \accelerator_controller
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+
+5.2. Executing AST frontend in derive mode using pre-parsed AST for module `\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Generating RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Reprocessing module systolic_array because instantiated module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe has become available.
+Generating RTLIL representation for module `\systolic_array'.
+Warning: Replacing memory \c_wire with list of registers. See rtl/systolic_array.sv:42
+Warning: Replacing memory \a_wire with list of registers. See rtl/systolic_array.sv:36
+Parameter \ARRAY_SIZE = 4
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+
+5.3. Executing AST frontend in derive mode using pre-parsed AST for module `\systolic_array'.
+Parameter \ARRAY_SIZE = 4
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Generating RTLIL representation for module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Warning: Replacing memory \c_wire with list of registers. See rtl/systolic_array.sv:42
+Warning: Replacing memory \a_wire with list of registers. See rtl/systolic_array.sv:36
+Parameter \ARRAY_SIZE = 4
+
+5.4. Executing AST frontend in derive mode using pre-parsed AST for module `\accelerator_controller'.
+Parameter \ARRAY_SIZE = 4
+Generating RTLIL representation for module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+
+5.5. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         \pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Parameter \DATA_WIDTH = 8
+Parameter \ACC_WIDTH = 32
+Found cached RTLIL representation for module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+
+5.6. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+5.7. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+Removing unused module `\systolic_array'.
+Removing unused module `\accelerator_controller'.
+Removing unused module `\pe'.
+Removed 3 unused modules.
+
+6. Executing PROC pass (convert processes to netlists).
+
+6.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+6.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$162 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$159 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$156 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$153 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$150 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$147 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$144 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$141 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$138 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$135 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$132 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$129 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$126 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$123 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$120 in module int8_accelerator_top.
+Marked 1 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:207$117 in module int8_accelerator_top.
+Marked 3 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:223$106 in module int8_accelerator_top.
+Marked 8 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:141$84 in module int8_accelerator_top.
+Marked 3 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:115$58 in module int8_accelerator_top.
+Marked 2 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:96$46 in module int8_accelerator_top.
+Removed 1 dead cases from process $proc$rtl/int8_accelerator_top.sv:84$44 in module int8_accelerator_top.
+Marked 2 switch rules as full_case in process $proc$rtl/int8_accelerator_top.sv:84$44 in module int8_accelerator_top.
+Marked 2 switch rules as full_case in process $proc$rtl/pe.sv:53$168 in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Marked 1 switch rules as full_case in process $proc$rtl/pe.sv:41$165 in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Removed 1 dead cases from process $proc$rtl/accelerator_controller.sv:110$461 in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Marked 2 switch rules as full_case in process $proc$rtl/accelerator_controller.sv:110$461 in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Removed 1 dead cases from process $proc$rtl/accelerator_controller.sv:69$449 in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Marked 5 switch rules as full_case in process $proc$rtl/accelerator_controller.sv:69$449 in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Marked 2 switch rules as full_case in process $proc$rtl/accelerator_controller.sv:54$442 in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Removed a total of 3 dead cases.
+
+6.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 1 redundant assignment.
+Promoted 54 assignments to connections.
+
+6.4. Executing PROC_INIT pass (extract init attributes).
+
+6.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$162'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$159'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$156'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$153'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$150'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$147'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$144'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$141'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$138'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$135'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$132'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$129'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$126'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$123'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$120'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$117'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+Found async reset \rst_n in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+Found async reset \rst_n in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+Found async reset \rst_n in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+
+6.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~63 debug messages>
+
+6.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$162'.
+     1/1: $0\result_matrix[511:480]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$159'.
+     1/1: $0\result_matrix[479:448]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$156'.
+     1/1: $0\result_matrix[447:416]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$153'.
+     1/1: $0\result_matrix[415:384]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$150'.
+     1/1: $0\result_matrix[383:352]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$147'.
+     1/1: $0\result_matrix[351:320]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$144'.
+     1/1: $0\result_matrix[319:288]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$141'.
+     1/1: $0\result_matrix[287:256]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$138'.
+     1/1: $0\result_matrix[255:224]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$135'.
+     1/1: $0\result_matrix[223:192]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$132'.
+     1/1: $0\result_matrix[191:160]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$129'.
+     1/1: $0\result_matrix[159:128]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$126'.
+     1/1: $0\result_matrix[127:96]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$123'.
+     1/1: $0\result_matrix[95:64]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$120'.
+     1/1: $0\result_matrix[63:32]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$117'.
+     1/1: $0\result_matrix[31:0]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+     1/2: $0\out_streaming[0:0]
+     2/2: $0\out_stream_idx[1:0]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:141$84'.
+     1/8: $8\a_in_skewed[31:24]
+     2/8: $7\a_in_skewed[31:24]
+     3/8: $6\a_in_skewed[23:16]
+     4/8: $5\a_in_skewed[23:16]
+     5/8: $4\a_in_skewed[15:8]
+     6/8: $3\a_in_skewed[15:8]
+     7/8: $2\a_in_skewed[7:0]
+     8/8: $1\a_in_skewed[7:0]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+     1/6: $2$lookahead\A_matrix$57[127:0]$66
+     2/6: $2$bitselwrite$pos$rtl/int8_accelerator_top.sv:121$40[31:0]$65
+     3/6: $1$lookahead\A_matrix$57[127:0]$63
+     4/6: $1$bitselwrite$pos$rtl/int8_accelerator_top.sv:121$40[31:0]$62
+     5/6: $0\act_loaded[0:0]
+     6/6: $0\act_load_idx[1:0]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+     1/2: $0\weights_loaded[0:0]
+     2/2: $0\weight_row_cnt[1:0]
+Creating decoders for process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:84$44'.
+     1/2: $2\weight_en_comb[3:0]
+     2/2: $1\weight_en_comb[3:0]
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$441'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$440'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$439'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$438'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$437'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$436'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$435'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$434'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$433'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$432'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$431'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$430'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$429'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$428'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$427'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$426'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$425'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$424'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$423'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$422'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$421'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$420'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$419'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$418'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$417'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$416'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$415'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$414'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$413'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$412'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$411'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$410'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$409'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$408'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$407'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$406'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$405'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$404'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$403'.
+Creating decoders for process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$402'.
+Creating decoders for process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+     1/3: $0\weight_reg[7:0]
+     2/3: $0\c_out[31:0]
+     3/3: $0\a_out[7:0]
+Creating decoders for process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+     1/1: $1\next_c[31:0]
+Creating decoders for process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:110$461'.
+     1/2: $2\weight_en[3:0]
+     2/2: $1\weight_en[3:0]
+Creating decoders for process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:69$449'.
+     1/5: $5\next_state[1:0]
+     2/5: $4\next_state[1:0]
+     3/5: $3\next_state[1:0]
+     4/5: $2\next_state[1:0]
+     5/5: $1\next_state[1:0]
+Creating decoders for process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+     1/2: $0\state[1:0]
+     2/2: $0\cycle_cnt[4:0]
+
+6.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\int8_accelerator_top.\a_in_skewed' from process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:141$84'.
+No latch inferred for signal `\int8_accelerator_top.\weight_en_comb' from process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:84$44'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[0]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$441'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[0]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$440'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[1]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$439'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[1]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$438'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[2]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$437'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[2]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$436'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[3]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$435'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[3]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$434'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[4]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$433'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[5]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$432'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[5]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$431'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[6]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$430'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[6]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$429'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[7]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$428'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[7]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$427'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[8]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$426'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[8]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$425'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[10]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$424'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[9]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$423'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[11]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$422'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[10]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$421'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[12]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$420'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[11]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$419'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[13]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$418'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[12]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$417'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[15]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$416'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[13]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$415'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[16]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$414'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[14]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$413'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[17]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$412'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[15]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$411'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[18]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$410'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[16]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$409'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[17]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$408'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[18]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$407'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\c_wire[19]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$406'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[4]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$405'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[9]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$404'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[14]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$403'.
+No latch inferred for signal `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.\a_wire[19]' from process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$402'.
+No latch inferred for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\mult_result' from process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+No latch inferred for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\mult_ext' from process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+No latch inferred for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\next_c' from process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+No latch inferred for signal `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.\weight_en' from process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:110$461'.
+No latch inferred for signal `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.\next_state' from process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:69$449'.
+
+6.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `\int8_accelerator_top.\result_matrix [511:480]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$162'.
+  created $adff cell `$procdff$712' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [479:448]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$159'.
+  created $adff cell `$procdff$717' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [447:416]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$156'.
+  created $adff cell `$procdff$722' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [415:384]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$153'.
+  created $adff cell `$procdff$727' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [383:352]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$150'.
+  created $adff cell `$procdff$732' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [351:320]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$147'.
+  created $adff cell `$procdff$737' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [319:288]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$144'.
+  created $adff cell `$procdff$742' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [287:256]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$141'.
+  created $adff cell `$procdff$747' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [255:224]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$138'.
+  created $adff cell `$procdff$752' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [223:192]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$135'.
+  created $adff cell `$procdff$757' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [191:160]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$132'.
+  created $adff cell `$procdff$762' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [159:128]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$129'.
+  created $adff cell `$procdff$767' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [127:96]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$126'.
+  created $adff cell `$procdff$772' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [95:64]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$123'.
+  created $adff cell `$procdff$777' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [63:32]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$120'.
+  created $adff cell `$procdff$782' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\result_matrix [31:0]' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$117'.
+  created $adff cell `$procdff$787' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\out_stream_idx' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+  created $adff cell `$procdff$792' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\out_streaming' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+  created $adff cell `$procdff$797' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\A_matrix' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+  created $adff cell `$procdff$802' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\act_load_idx' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+  created $adff cell `$procdff$807' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\act_loaded' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+  created $adff cell `$procdff$812' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.$bitselwrite$pos$rtl/int8_accelerator_top.sv:121$40' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+  created $adff cell `$procdff$817' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.$lookahead\A_matrix$57' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+  created $adff cell `$procdff$822' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\weight_row_cnt' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+  created $adff cell `$procdff$827' with positive edge clock and positive level reset.
+Creating register for signal `\int8_accelerator_top.\weights_loaded' using process `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+  created $adff cell `$procdff$832' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\a_out' using process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+  created $adff cell `$procdff$837' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\c_out' using process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+  created $adff cell `$procdff$842' with positive edge clock and positive level reset.
+Creating register for signal `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.\weight_reg' using process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+  created $adff cell `$procdff$847' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.\state' using process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+  created $adff cell `$procdff$852' with positive edge clock and positive level reset.
+Creating register for signal `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.\cycle_cnt' using process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+  created $adff cell `$procdff$857' with positive edge clock and positive level reset.
+
+6.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+6.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$162'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$162'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$159'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$159'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$156'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$156'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$153'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$153'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$150'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$150'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$147'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$147'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$144'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$144'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$141'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$141'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$138'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$138'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$135'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$135'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$132'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$132'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$129'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$129'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$126'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$126'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$123'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$123'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$120'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$120'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$117'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:207$117'.
+Found and cleaned up 4 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:223$106'.
+Found and cleaned up 8 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:141$84'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:141$84'.
+Found and cleaned up 3 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:115$58'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:96$46'.
+Found and cleaned up 2 empty switches in `\int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:84$44'.
+Removing empty process `int8_accelerator_top.$proc$rtl/int8_accelerator_top.sv:84$44'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$441'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$440'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$439'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$438'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$437'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$436'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$435'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$434'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$433'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$432'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$431'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$430'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$429'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$428'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$427'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$426'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$425'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$424'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$423'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$422'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$421'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$420'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$419'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$418'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$417'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$416'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$415'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$414'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$413'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$412'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:61$411'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:60$410'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$409'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$408'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$407'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:42$406'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$405'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$404'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$403'.
+Removing empty process `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.$proc$rtl/systolic_array.sv:36$402'.
+Found and cleaned up 2 empty switches in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+Removing empty process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:53$168'.
+Found and cleaned up 1 empty switch in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+Removing empty process `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.$proc$rtl/pe.sv:41$165'.
+Found and cleaned up 2 empty switches in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:110$461'.
+Removing empty process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:110$461'.
+Found and cleaned up 5 empty switches in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:69$449'.
+Removing empty process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:69$449'.
+Found and cleaned up 2 empty switches in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+Removing empty process `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$proc$rtl/accelerator_controller.sv:54$442'.
+Cleaned up 63 empty switches.
+
+6.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~55 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+<suppressed ~6 debug messages>
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+<suppressed ~12 debug messages>
+
+7. Executing OPT pass (performing simple optimizations).
+
+7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~5 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 231 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 172 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+<suppressed ~177 debug messages>
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 15 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 13 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 52 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 37 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+<suppressed ~45 debug messages>
+Removed a total of 76 cells.
+
+7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $procmux$535: \out_streaming -> 1'0
+      Replacing known input bits on port A of cell $procmux$533: \out_streaming -> 1'1
+      Replacing known input bits on port A of cell $procmux$531: \out_streaming -> 1'1
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$602.
+    dead port 2/2 on $mux $procmux$602.
+    dead port 2/2 on $mux $procmux$593.
+    dead port 2/2 on $mux $procmux$581.
+    dead port 2/2 on $mux $procmux$569.
+    dead port 2/2 on $mux $procmux$557.
+    dead port 2/2 on $mux $procmux$634.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$686.
+    dead port 2/2 on $mux $procmux$677.
+    dead port 2/2 on $mux $procmux$670.
+    dead port 2/2 on $mux $procmux$661.
+    dead port 2/2 on $mux $procmux$696.
+    dead port 2/2 on $mux $procmux$688.
+Removed 13 multiplexer ports.
+<suppressed ~120 debug messages>
+
+7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 166 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 13 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 31 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+7.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $procdff$752 ($adff) from module int8_accelerator_top (D = \c_out_array [127:96], Q = \result_matrix [255:224]).
+Adding EN signal on $procdff$792 ($adff) from module int8_accelerator_top (D = $procmux$548_Y, Q = \out_stream_idx).
+Adding EN signal on $procdff$712 ($adff) from module int8_accelerator_top (D = \c_out_array [127:96], Q = \result_matrix [511:480]).
+Adding EN signal on $procdff$807 ($adff) from module int8_accelerator_top (D = $procmux$614_Y, Q = \act_load_idx).
+Adding EN signal on $procdff$717 ($adff) from module int8_accelerator_top (D = \c_out_array [95:64], Q = \result_matrix [479:448]).
+Adding EN signal on $procdff$757 ($adff) from module int8_accelerator_top (D = \c_out_array [95:64], Q = \result_matrix [223:192]).
+Adding EN signal on $procdff$777 ($adff) from module int8_accelerator_top (D = \c_out_array [95:64], Q = \result_matrix [95:64]).
+Adding EN signal on $procdff$722 ($adff) from module int8_accelerator_top (D = \c_out_array [63:32], Q = \result_matrix [447:416]).
+Adding EN signal on $procdff$787 ($adff) from module int8_accelerator_top (D = \c_out_array [31:0], Q = \result_matrix [31:0]).
+Adding EN signal on $procdff$727 ($adff) from module int8_accelerator_top (D = \c_out_array [31:0], Q = \result_matrix [415:384]).
+Adding EN signal on $procdff$762 ($adff) from module int8_accelerator_top (D = \c_out_array [63:32], Q = \result_matrix [191:160]).
+Adding EN signal on $procdff$827 ($adff) from module int8_accelerator_top (D = $procmux$624_Y, Q = \weight_row_cnt).
+Adding EN signal on $procdff$732 ($adff) from module int8_accelerator_top (D = \c_out_array [127:96], Q = \result_matrix [383:352]).
+Adding EN signal on $procdff$832 ($adff) from module int8_accelerator_top (D = 1'1, Q = \weights_loaded).
+Adding EN signal on $procdff$737 ($adff) from module int8_accelerator_top (D = \c_out_array [95:64], Q = \result_matrix [351:320]).
+Adding EN signal on $procdff$767 ($adff) from module int8_accelerator_top (D = \c_out_array [31:0], Q = \result_matrix [159:128]).
+Adding EN signal on $procdff$802 ($adff) from module int8_accelerator_top (D = $or$rtl/int8_accelerator_top.sv:121$74_Y, Q = \A_matrix).
+Adding EN signal on $procdff$742 ($adff) from module int8_accelerator_top (D = \c_out_array [63:32], Q = \result_matrix [319:288]).
+Adding EN signal on $procdff$782 ($adff) from module int8_accelerator_top (D = \c_out_array [63:32], Q = \result_matrix [63:32]).
+Adding EN signal on $procdff$812 ($adff) from module int8_accelerator_top (D = $procmux$610_Y, Q = \act_loaded).
+Adding EN signal on $procdff$747 ($adff) from module int8_accelerator_top (D = \c_out_array [31:0], Q = \result_matrix [287:256]).
+Adding EN signal on $procdff$772 ($adff) from module int8_accelerator_top (D = \c_out_array [127:96], Q = \result_matrix [127:96]).
+Setting constant 0-bit at position 0 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 1 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 2 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 3 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 4 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 5 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 6 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 7 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 8 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 9 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 10 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 11 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 12 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 13 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 14 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 15 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 16 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 17 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 18 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 19 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 20 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 21 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 22 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 23 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 24 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 25 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 26 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 27 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 28 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 29 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 30 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 31 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 32 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 33 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 34 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 35 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 36 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 37 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 38 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 39 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 40 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 41 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 42 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 43 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 44 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 45 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 46 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 47 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 48 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 49 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 50 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 51 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 52 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 53 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 54 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 55 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 56 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 57 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 58 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 59 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 60 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 61 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 62 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 63 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 64 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 65 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 66 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 67 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 68 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 69 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 70 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 71 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 72 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 73 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 74 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 75 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 76 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 77 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 78 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 79 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 80 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 81 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 82 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 83 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 84 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 85 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 86 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 87 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 88 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 89 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 90 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 91 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 92 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 93 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 94 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 95 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 96 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 97 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 98 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 99 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 100 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 101 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 102 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 103 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 104 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 105 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 106 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 107 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 108 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 109 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 110 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 111 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 112 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 113 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 114 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 115 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 116 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 117 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 118 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 119 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 120 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 121 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 122 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 123 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 124 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 125 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 126 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 127 on $procdff$822 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 0 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 1 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 2 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 3 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 4 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 5 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 6 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 7 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 8 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 9 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 10 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 11 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 12 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 13 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 14 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 15 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 16 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 17 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 18 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 19 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 20 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 21 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 22 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 23 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 24 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 25 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 26 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 27 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 28 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 29 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 30 on $procdff$817 ($adff) from module int8_accelerator_top.
+Setting constant 0-bit at position 31 on $procdff$817 ($adff) from module int8_accelerator_top.
+Adding EN signal on $procdff$847 ($adff) from module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe (D = \w_in, Q = \weight_reg).
+Adding EN signal on $procdff$842 ($adff) from module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe (D = \next_c, Q = \c_out).
+Adding EN signal on $procdff$837 ($adff) from module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe (D = \a_in, Q = \a_out).
+Adding EN signal on $procdff$857 ($adff) from module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100 (D = $procmux$706_Y, Q = \cycle_cnt).
+
+7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 48 unused cells and 466 unused wires.
+<suppressed ~53 debug messages>
+
+7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~3 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+<suppressed ~1 debug messages>
+
+7.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+7.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+7.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 147 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+<suppressed ~27 debug messages>
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 10 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 9 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+<suppressed ~6 debug messages>
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 11 cells.
+
+7.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 0 unused cells and 11 unused wires.
+<suppressed ~2 debug messages>
+
+7.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+7.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+7.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+7.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+7.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+7.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+7.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+7.23. Finished fast OPT passes. (There is nothing left to do.)
+
+8. Executing FSM pass (extract and optimize FSM).
+
+8.1. Executing FSM_DETECT pass (finding FSMs in design).
+Not marking $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.state as FSM state register:
+    Users of register don't seem to benefit from recoding.
+
+8.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+8.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+8.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+8.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+8.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+8.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+8.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+9. Executing OPT pass (performing simple optimizations).
+
+9.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+9.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+9.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+9.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+9.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+9.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+9.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+9.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+9.9. Finished fast OPT passes. (There is nothing left to do.)
+
+10. Executing MEMORY pass.
+
+10.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+10.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+10.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+10.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+10.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+10.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+10.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+10.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+10.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+10.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+10.11. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+11. Executing OPT pass (performing simple optimizations).
+
+11.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+11.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+11.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~47 debug messages>
+
+11.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+11.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 138 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 8 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 30 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+11.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+11.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+11.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+11.9. Finished fast OPT passes. (There is nothing left to do.)
+
+12. Executing TECHMAP pass (map to technology primitives).
+
+12.1. Executing Verilog-2005 frontend: /opt/homebrew/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/homebrew/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+12.2. Continuing TECHMAP pass.
+Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $adffe.
+Using extmapper simplemap for cells of type $ne.
+Using extmapper simplemap for cells of type $logic_or.
+Running "alumacc" on wrapper $extern:wrap:$add:Y_WIDTH=5:B_WIDTH=1:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:Y_WIDTH=5:B_WIDTH=1:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:Y_WIDTH=5:B_WIDTH=1:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$ge:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$ge:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$ge:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $logic_and.
+Running "alumacc" on wrapper $extern:wrap:$lt:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$lt:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$lt:Y_WIDTH=1:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper simplemap for cells of type $eq.
+Using extmapper simplemap for cells of type $pmux.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $mux.
+Using extmapper simplemap for cells of type $adff.
+Using extmapper simplemap for cells of type $not.
+Using template $paramod$b0777dc865134c8525a4aa84de8cfa938974cad1\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $reduce_or.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $or.
+Using template $paramod$672a140277c71df8314410f22acc08d55222c3c7\_90_alu for cells of type $alu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000101 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000101 for cells of type $lcu.
+Using extmapper simplemap for cells of type $xor.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000100000 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000100000 for cells of type $lcu.
+Using extmapper simplemap for cells of type $and.
+Running "alumacc" on wrapper $extern:wrap:$mul:Y_WIDTH=16:B_WIDTH=8:A_WIDTH=8:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$mul:Y_WIDTH=16:B_WIDTH=8:A_WIDTH=8:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$mul:Y_WIDTH=16:B_WIDTH=8:A_WIDTH=8:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Running "alumacc" on wrapper $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=32:B_SIGNED=1:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using extmapper maccmap for cells of type $macc_v2.
+  add \a_in * \weight_reg (8x8 bits, signed)
+Using template $paramod$2653f68ddb8eab7b1907b4a20767b72a824a7a36\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000010000 for cells of type $fa.
+Using template $paramod$6df0329addda9228fcc2546de2aaf14ad26c98e1\_90_alu for cells of type $alu.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000010000 for cells of type $lcu.
+Running "alumacc" on wrapper $extern:wrap:$add:Y_WIDTH=2:B_WIDTH=1:A_WIDTH=2:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$add:Y_WIDTH=2:B_WIDTH=1:A_WIDTH=2:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$add:Y_WIDTH=2:B_WIDTH=1:A_WIDTH=2:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $paramod$constmap:a4bb7eea1e03d7baa2124d4e67462fabaf306ddd$paramod$ffd7c51a8e58f947c8584f942dd6e7533e5b9916\_90_shift_shiftx for cells of type $shift.
+Running "alumacc" on wrapper $extern:wrap:$neg:Y_WIDTH=33:A_WIDTH=33:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$neg:Y_WIDTH=33:A_WIDTH=33:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$neg:Y_WIDTH=33:A_WIDTH=33:A_SIGNED=1:394426c56d1a028ba8fdd5469b163e04011def47.
+Analyzing pattern of constant bits for this cell:
+Creating constmapped module `$paramod$constmap:955d0138e4005201be30abf73272514f990d931f$paramod$ffd7c51a8e58f947c8584f942dd6e7533e5b9916\_90_shift_shiftx'.
+
+12.48. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod$constmap:955d0138e4005201be30abf73272514f990d931f$paramod$ffd7c51a8e58f947c8584f942dd6e7533e5b9916\_90_shift_shiftx..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$5012.
+    dead port 2/2 on $mux $procmux$5018.
+    dead port 2/2 on $mux $procmux$5024.
+    dead port 2/2 on $mux $procmux$5030.
+    dead port 2/2 on $mux $procmux$5036.
+    dead port 2/2 on $mux $procmux$5042.
+    dead port 2/2 on $mux $procmux$5048.
+    dead port 2/2 on $mux $procmux$5054.
+Removed 8 multiplexer ports.
+<suppressed ~1969 debug messages>
+
+12.49. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod$constmap:955d0138e4005201be30abf73272514f990d931f$paramod$ffd7c51a8e58f947c8584f942dd6e7533e5b9916\_90_shift_shiftx.
+<suppressed ~26 debug messages>
+Removed 0 unused cells and 13 unused wires.
+Using template $paramod$constmap:955d0138e4005201be30abf73272514f990d931f$paramod$ffd7c51a8e58f947c8584f942dd6e7533e5b9916\_90_shift_shiftx for cells of type $shift.
+Running "alumacc" on wrapper $extern:wrap:$sub:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $extern:wrap:$sub:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47 for cells of type $extern:wrap:$sub:Y_WIDTH=32:B_WIDTH=32:A_WIDTH=5:B_SIGNED=0:A_SIGNED=0:394426c56d1a028ba8fdd5469b163e04011def47.
+Using template $paramod$constmap:64855df1a60b5b5b5ee31215d31b7d89fea653e5$paramod$e9acc27ed2b5b3ab1d99ea8cb2d526d151e790dd\_90_shift_shiftx for cells of type $shiftx.
+Using template $paramod$175e67c02b86e96b1288b9dc100122520d7240d8\_90_alu for cells of type $alu.
+Using template $paramod$e3e2a2ae1e4d598b5e0e0be67cc1104653ecf8c1\_90_alu for cells of type $alu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000000010 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000000010 for cells of type $lcu.
+Using template $paramod\_90_fa\WIDTH=32'00000000000000000000000000100001 for cells of type $fa.
+Using template $paramod\_90_lcu_brent_kung\WIDTH=32'00000000000000000000000000100001 for cells of type $lcu.
+No more expansions possible.
+<suppressed ~2769 debug messages>
+
+13. Executing OPT pass (performing simple optimizations).
+
+13.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~14689 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+<suppressed ~440 debug messages>
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+<suppressed ~1380 debug messages>
+
+13.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 4884 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 4281 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 4038 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3867 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3686 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3400 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3270 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3266 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3264 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3263 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3262 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3261 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3260 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3259 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3258 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3257 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3256 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3255 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3254 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3253 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3252 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3251 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3250 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3249 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 3248 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+<suppressed ~4908 debug messages>
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 932 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 880 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 857 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 847 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 841 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 834 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 828 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 825 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+<suppressed ~321 debug messages>
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 250 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 141 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 131 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 125 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+<suppressed ~375 debug messages>
+Removed a total of 1868 cells.
+
+13.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+13.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+13.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 3248 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 825 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 125 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+13.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 933 unused cells and 3916 unused wires.
+<suppressed ~936 debug messages>
+
+13.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~70 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+13.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+13.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+13.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2322 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 1 cells.
+
+13.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 0 unused cells and 27 unused wires.
+<suppressed ~1 debug messages>
+
+13.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+13.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+13.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+13.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+13.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+13.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+13.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+13.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+13.23. Finished fast OPT passes. (There is nothing left to do.)
+
+14. Executing SYNTH pass.
+
+14.1. Executing HIERARCHY pass (managing design hierarchy).
+
+14.1.1. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+14.1.2. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+Removed 0 unused modules.
+
+14.2. Executing PROC pass (convert processes to netlists).
+
+14.2.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+14.2.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+14.2.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 0 assignments to connections.
+
+14.2.4. Executing PROC_INIT pass (extract init attributes).
+
+14.2.5. Executing PROC_ARST pass (detect async resets in processes).
+
+14.2.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+
+14.2.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+
+14.2.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+14.2.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+14.2.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+14.2.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+14.2.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.3. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.5. Executing CHECK pass (checking for obvious problems).
+Checking module int8_accelerator_top...
+Checking module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array...
+Checking module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe...
+Checking module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100...
+Found and reported 0 problems.
+
+14.6. Executing OPT pass (performing simple optimizations).
+
+14.6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+14.6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+14.6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.6.9. Finished fast OPT passes. (There is nothing left to do.)
+
+14.7. Executing FSM pass (extract and optimize FSM).
+
+14.7.1. Executing FSM_DETECT pass (finding FSMs in design).
+
+14.7.2. Executing FSM_EXTRACT pass (extracting FSM from design).
+
+14.7.3. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+14.7.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.7.5. Executing FSM_OPT pass (simple optimizations of FSMs).
+
+14.7.6. Executing FSM_RECODE pass (re-assigning FSM state encoding).
+
+14.7.7. Executing FSM_INFO pass (dumping all available information on FSM cells).
+
+14.7.8. Executing FSM_MAP pass (mapping FSMs to basic logic).
+
+14.8. Executing OPT pass (performing simple optimizations).
+
+14.8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+14.8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+14.8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.8.9. Finished fast OPT passes. (There is nothing left to do.)
+
+14.9. Executing WREDUCE pass (reducing word size of cells).
+Removed top 6 bits (of 8) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15405.
+Removed top 1 bits (of 2) from wire int8_accelerator_top.$auto$simplemap.cc:189:logic_reduce$7302.
+Removed top 1 bits (of 2) from wire int8_accelerator_top.$auto$simplemap.cc:189:logic_reduce$7288.
+Removed top 1152 bits (of 1536) from wire int8_accelerator_top.$techmap$shiftx$rtl/int8_accelerator_top.sv:247$114.$18\buffer[1535:0].
+Removed top 3 bits (of 4) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15288.
+Removed top 6 bits (of 8) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15279.
+Removed top 13 bits (of 16) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15262.
+Removed top 3 bits (of 4) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15330.
+Removed top 6 bits (of 8) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15321.
+Removed top 13 bits (of 16) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15304.
+Removed top 3 bits (of 4) from wire int8_accelerator_top.$auto$simplemap.cc:189:logic_reduce$7211.
+Removed top 6 bits (of 8) from wire int8_accelerator_top.$auto$simplemap.cc:189:logic_reduce$7202.
+Removed top 96 bits (of 384) from wire int8_accelerator_top.$techmap$shift$rtl/int8_accelerator_top.sv:121$73.$10\buffer[383:0].
+Removed top 128 bits (of 384) from wire int8_accelerator_top.$techmap$shift$rtl/int8_accelerator_top.sv:121$73.$16\buffer[383:0].
+Removed top 96 bits (of 384) from wire int8_accelerator_top.$techmap$shift$rtl/int8_accelerator_top.sv:121$73.$14\buffer[383:0].
+Removed top 3 bits (of 4) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15414.
+Removed top 3 bits (of 4) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15372.
+Removed top 6 bits (of 8) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15363.
+Removed top 13 bits (of 16) from wire int8_accelerator_top.$auto$simplemap.cc:148:simplemap_reduce$15346.
+Removed top 128 bits (of 384) from wire int8_accelerator_top.$techmap$shift$rtl/int8_accelerator_top.sv:121$69.$16\buffer[383:0].
+Removed top 96 bits (of 384) from wire int8_accelerator_top.$techmap$shift$rtl/int8_accelerator_top.sv:121$69.$14\buffer[383:0].
+Removed top 3 bits (of 4) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1273.
+Removed top 6 bits (of 8) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1264.
+Removed top 13 bits (of 16) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1247.
+Removed top 1 bits (of 2) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:189:logic_reduce$1121.
+Removed top 1 bits (of 2) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:189:logic_reduce$1107.
+Removed top 3 bits (of 4) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1314.
+Removed top 6 bits (of 8) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1305.
+Removed top 13 bits (of 16) from wire $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.$auto$simplemap.cc:148:simplemap_reduce$1288.
+
+14.10. Executing PEEPOPT pass (run peephole optimizers).
+
+14.11. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 0 unused cells and 29 unused wires.
+<suppressed ~2 debug messages>
+
+14.12. Executing ALUMACC pass (create $alu and $macc cells).
+Extracting $alu and $macc cells in module int8_accelerator_top:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe:
+  created 0 $alu and 0 $macc cells.
+Extracting $alu and $macc cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100:
+  created 0 $alu and 0 $macc cells.
+
+14.13. Executing SHARE pass (SAT-based resource sharing).
+
+14.14. Executing OPT pass (performing simple optimizations).
+
+14.14.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.14.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.14.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+14.14.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+14.14.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2321 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 115 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.14.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.14.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.14.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.14.9. Finished fast OPT passes. (There is nothing left to do.)
+
+14.15. Executing MEMORY pass.
+
+14.15.1. Executing OPT_MEM pass (optimize memories).
+Performed a total of 0 transformations.
+
+14.15.2. Executing OPT_MEM_PRIORITY pass (removing unnecessary memory write priority relations).
+Performed a total of 0 transformations.
+
+14.15.3. Executing OPT_MEM_FEEDBACK pass (finding memory read-to-write feedback paths).
+
+14.15.4. Executing MEMORY_BMUX2ROM pass (converting muxes to ROMs).
+
+14.15.5. Executing MEMORY_DFF pass (merging $dff cells to $memrd).
+
+14.15.6. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.15.7. Executing MEMORY_SHARE pass (consolidating $memrd/$memwr cells).
+
+14.15.8. Executing OPT_MEM_WIDEN pass (optimize memories where all ports are wide).
+Performed a total of 0 transformations.
+
+14.15.9. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.15.10. Executing MEMORY_COLLECT pass (generating $mem cells).
+
+14.16. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.17. Executing OPT pass (performing simple optimizations).
+
+14.17.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+<suppressed ~249 debug messages>
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+<suppressed ~15 debug messages>
+
+14.17.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2310 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Computing hashes of 2309 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+<suppressed ~3 debug messages>
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 104 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 1 cells.
+
+14.17.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.17.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 8 unused cells and 23 unused wires.
+<suppressed ~10 debug messages>
+
+14.17.5. Finished fast OPT passes.
+
+14.18. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+14.19. Executing OPT pass (performing simple optimizations).
+
+14.19.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.19.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2306 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 99 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.19.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \int8_accelerator_top..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Removed 0 multiplexer ports.
+
+14.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \int8_accelerator_top.
+  Optimizing cells in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+  Optimizing cells in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+  Optimizing cells in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+Performed a total of 0 changes.
+
+14.19.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2306 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 99 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.19.6. Executing OPT_SHARE pass.
+
+14.19.7. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.19.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.19.9. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.19.10. Finished fast OPT passes. (There is nothing left to do.)
+
+14.20. Executing TECHMAP pass (map to technology primitives).
+
+14.20.1. Executing Verilog-2005 frontend: /opt/homebrew/bin/../share/yosys/techmap.v
+Parsing Verilog input from `/opt/homebrew/bin/../share/yosys/techmap.v' to AST representation.
+Generating RTLIL representation for module `\_90_simplemap_bool_ops'.
+Generating RTLIL representation for module `\_90_simplemap_reduce_ops'.
+Generating RTLIL representation for module `\_90_simplemap_logic_ops'.
+Generating RTLIL representation for module `\_90_simplemap_compare_ops'.
+Generating RTLIL representation for module `\_90_simplemap_various'.
+Generating RTLIL representation for module `\_90_simplemap_registers'.
+Generating RTLIL representation for module `\_90_shift_ops_shr_shl_sshl_sshr'.
+Generating RTLIL representation for module `\_90_shift_shiftx'.
+Generating RTLIL representation for module `\_90_fa'.
+Generating RTLIL representation for module `\_90_lcu_brent_kung'.
+Generating RTLIL representation for module `\_90_alu'.
+Generating RTLIL representation for module `\_90_macc'.
+Generating RTLIL representation for module `\_90_alumacc'.
+Generating RTLIL representation for module `$__div_mod_u'.
+Generating RTLIL representation for module `$__div_mod_trunc'.
+Generating RTLIL representation for module `\_90_div'.
+Generating RTLIL representation for module `\_90_mod'.
+Generating RTLIL representation for module `$__div_mod_floor'.
+Generating RTLIL representation for module `\_90_divfloor'.
+Generating RTLIL representation for module `\_90_modfloor'.
+Generating RTLIL representation for module `\_90_pow'.
+Generating RTLIL representation for module `\_90_demux'.
+Generating RTLIL representation for module `\_90_lut'.
+Generating RTLIL representation for module `$connect'.
+Generating RTLIL representation for module `$input_port'.
+Successfully finished Verilog frontend.
+
+14.20.2. Continuing TECHMAP pass.
+No more expansions possible.
+<suppressed ~77 debug messages>
+
+14.21. Executing OPT pass (performing simple optimizations).
+
+14.21.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.21.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 2306 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 758 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 99 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.21.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.21.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+
+14.21.5. Finished fast OPT passes.
+
+14.22. Executing ABC pass (technology mapping using ABC).
+
+14.22.1. Extracting gate netlist of module `\int8_accelerator_top' to `<abc-temp-dir>/input.blif'..
+
+14.22.1.1. Executed ABC.
+Extracted 1655 gates and 2352 wires to a netlist network with 695 inputs and 315 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+14.22.1.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      261
+ABC RESULTS:            ANDNOT cells:       15
+ABC RESULTS:               MUX cells:      258
+ABC RESULTS:              NAND cells:      545
+ABC RESULTS:               NOR cells:       13
+ABC RESULTS:               NOT cells:        1
+ABC RESULTS:                OR cells:        4
+ABC RESULTS:             ORNOT cells:      130
+ABC RESULTS:        internal signals:     1342
+ABC RESULTS:           input signals:      695
+ABC RESULTS:          output signals:      315
+Removing temp directory.
+
+14.22.2. Extracting gate netlist of module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array' to `<abc-temp-dir>/input.blif'..
+
+14.22.2.1. Executed ABC.
+Extracted 0 gates and 0 wires to a netlist network with 0 inputs and 0 outputs.
+Don't call ABC as there is nothing to map.
+Removing temp directory.
+
+14.22.3. Extracting gate netlist of module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe' to `<abc-temp-dir>/input.blif'..
+
+14.22.3.1. Executed ABC.
+Extracted 710 gates and 762 wires to a netlist network with 51 inputs and 33 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+14.22.3.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:      159
+ABC RESULTS:            ANDNOT cells:       15
+ABC RESULTS:               MUX cells:        5
+ABC RESULTS:              NAND cells:      208
+ABC RESULTS:               NOR cells:       36
+ABC RESULTS:               NOT cells:        1
+ABC RESULTS:                OR cells:       37
+ABC RESULTS:             ORNOT cells:       10
+ABC RESULTS:              XNOR cells:       51
+ABC RESULTS:               XOR cells:      116
+ABC RESULTS:        internal signals:      678
+ABC RESULTS:           input signals:       51
+ABC RESULTS:          output signals:       33
+Removing temp directory.
+
+14.22.4. Extracting gate netlist of module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100' to `<abc-temp-dir>/input.blif'..
+
+14.22.4.1. Executed ABC.
+Extracted 92 gates and 102 wires to a netlist network with 9 inputs and 19 outputs.
+Running ABC script: <abc-temp-dir>/abc.script
+ABC: ======== ABC command line "source <abc-temp-dir>/abc.script"
+ABC: + read_blif <abc-temp-dir>/input.blif 
+ABC: + read_library <abc-temp-dir>/stdcells.genlib 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &fraig -x 
+ABC: + &put 
+ABC: + scorr 
+ABC: Warning: The network is combinational (run "fraig" or "fraig_sweep").
+ABC: + dc2 
+ABC: + dretime 
+ABC: + strash 
+ABC: + &get -n 
+ABC: + &dch -f 
+ABC: + &nf 
+ABC: + &put 
+ABC: + write_blif <abc-temp-dir>/output.blif 
+
+14.22.4.2. Re-integrating ABC results.
+ABC RESULTS:               AND cells:       17
+ABC RESULTS:            ANDNOT cells:        6
+ABC RESULTS:              NAND cells:        6
+ABC RESULTS:               NOR cells:        6
+ABC RESULTS:               NOT cells:        3
+ABC RESULTS:                OR cells:        4
+ABC RESULTS:             ORNOT cells:        2
+ABC RESULTS:              XNOR cells:        1
+ABC RESULTS:               XOR cells:        1
+ABC RESULTS:        internal signals:       74
+ABC RESULTS:           input signals:        9
+ABC RESULTS:          output signals:       19
+Removing temp directory.
+Removing global temp directory.
+
+14.23. Executing OPT pass (performing simple optimizations).
+
+14.23.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module int8_accelerator_top.
+Optimizing module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array.
+Optimizing module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe.
+Optimizing module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100.
+
+14.23.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\int8_accelerator_top'.
+Computing hashes of 1878 cells of `\int8_accelerator_top'.
+Finding duplicate cells in `\int8_accelerator_top'.
+Finding identical cells in module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Computing hashes of 16 cells of `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding duplicate cells in `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Finding identical cells in module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Computing hashes of 686 cells of `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding duplicate cells in `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Finding identical cells in module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Computing hashes of 53 cells of `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Finding duplicate cells in `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Removed a total of 0 cells.
+
+14.23.3. Executing OPT_DFF pass (perform DFF optimizations).
+
+14.23.4. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \int8_accelerator_top..
+Finding unused cells or wires in module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array..
+Finding unused cells or wires in module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe..
+Finding unused cells or wires in module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100..
+Removed 0 unused cells and 1648 unused wires.
+<suppressed ~3 debug messages>
+
+14.23.5. Finished fast OPT passes.
+
+14.24. Executing HIERARCHY pass (managing design hierarchy).
+Attribute `top' found on module `int8_accelerator_top'. Setting top module to int8_accelerator_top.
+
+14.24.1. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+14.24.2. Analyzing design hierarchy..
+Top module:  \int8_accelerator_top
+Used module:     $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+Used module:         $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+Used module:     $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+Removed 0 unused modules.
+
+14.25. Printing statistics.
+
+=== int8_accelerator_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1093 wires
+     2247 wire bits
+       36 public wires
+     1189 public wire bits
+       15 ports
+      204 port bits
+     1876 cells
+       15   $_ANDNOT_
+      261   $_AND_
+      648   $_DFFE_PN0P_
+        1   $_DFF_PN0_
+      258   $_MUX_
+      545   $_NAND_
+       13   $_NOR_
+        1   $_NOT_
+      130   $_ORNOT_
+        4   $_OR_
+        2 submodules
+        1   $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+        1   $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+=== $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       50 wires
+     1160 wire bits
+       50 public wires
+     1160 public wire bits
+       10 ports
+      360 port bits
+       16 submodules
+       16   $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+
+=== $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      620 wires
+      787 wire bits
+       14 public wires
+      181 public wire bits
+       10 ports
+       93 port bits
+      686 cells
+       15   $_ANDNOT_
+      159   $_AND_
+       48   $_DFFE_PN0P_
+        5   $_MUX_
+      208   $_NAND_
+       36   $_NOR_
+        1   $_NOT_
+       10   $_ORNOT_
+       37   $_OR_
+       51   $_XNOR_
+      116   $_XOR_
+
+=== $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100 ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       46 wires
+       64 wire bits
+       17 public wires
+       31 public wire bits
+       14 ports
+       22 port bits
+       53 cells
+        6   $_ANDNOT_
+       17   $_AND_
+        5   $_DFFE_PN0P_
+        2   $_DFF_PN0_
+        6   $_NAND_
+        6   $_NOR_
+        3   $_NOT_
+        2   $_ORNOT_
+        4   $_OR_
+        1   $_XNOR_
+        1   $_XOR_
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+    12905 int8_accelerator_top
+      686   $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+       53 $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+        +----------Count including submodules.
+        | 
+    11109 wires
+    16063 wire bits
+      327 public wires
+     5276 public wire bits
+      199 ports
+     2074 port bits
+        - memories
+        - memory bits
+        - processes
+    12905 cells
+      261   $_ANDNOT_
+     2822   $_AND_
+     1421   $_DFFE_PN0P_
+        3   $_DFF_PN0_
+      338   $_MUX_
+     3879   $_NAND_
+      595   $_NOR_
+       20   $_NOT_
+      292   $_ORNOT_
+      600   $_OR_
+      817   $_XNOR_
+     1857   $_XOR_
+        2 submodules
+        1   $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+        1   $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+14.26. Executing CHECK pass (checking for obvious problems).
+Checking module int8_accelerator_top...
+Checking module $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array...
+Checking module $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe...
+Checking module $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100...
+Found and reported 0 problems.
+
+15. Printing statistics.
+
+=== int8_accelerator_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+     1093 wires
+     2247 wire bits
+       36 public wires
+     1189 public wire bits
+       15 ports
+      204 port bits
+     1876 cells
+       15   $_ANDNOT_
+      261   $_AND_
+      648   $_DFFE_PN0P_
+        1   $_DFF_PN0_
+      258   $_MUX_
+      545   $_NAND_
+       13   $_NOR_
+        1   $_NOT_
+      130   $_ORNOT_
+        4   $_OR_
+        2 submodules
+        1   $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+        1   $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+   Estimated number of transistors:      77930+
+
+=== $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       50 wires
+     1160 wire bits
+       50 public wires
+     1160 public wire bits
+       10 ports
+      360 port bits
+       16 submodules
+       16   $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+
+   Estimated number of transistors:      69888+
+
+=== $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe ===
+
+        +----------Local Count, excluding submodules.
+        | 
+      620 wires
+      787 wire bits
+       14 public wires
+      181 public wire bits
+       10 ports
+       93 port bits
+      686 cells
+       15   $_ANDNOT_
+      159   $_AND_
+       48   $_DFFE_PN0P_
+        5   $_MUX_
+      208   $_NAND_
+       36   $_NOR_
+        1   $_NOT_
+       10   $_ORNOT_
+       37   $_OR_
+       51   $_XNOR_
+      116   $_XOR_
+
+   Estimated number of transistors:       4368+
+
+=== $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100 ===
+
+        +----------Local Count, excluding submodules.
+        | 
+       46 wires
+       64 wire bits
+       17 public wires
+       31 public wire bits
+       14 ports
+       22 port bits
+       53 cells
+        6   $_ANDNOT_
+       17   $_AND_
+        5   $_DFFE_PN0P_
+        2   $_DFF_PN0_
+        6   $_NAND_
+        6   $_NOR_
+        3   $_NOT_
+        2   $_ORNOT_
+        4   $_OR_
+        1   $_XNOR_
+        1   $_XOR_
+
+   Estimated number of transistors:        252+
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        | 
+    12905 int8_accelerator_top
+      686   $paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe
+       53 $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+        +----------Count including submodules.
+        | 
+    11109 wires
+    16063 wire bits
+      327 public wires
+     5276 public wire bits
+      199 ports
+     2074 port bits
+        - memories
+        - memory bits
+        - processes
+    12905 cells
+      261   $_ANDNOT_
+     2822   $_AND_
+     1421   $_DFFE_PN0P_
+        3   $_DFF_PN0_
+      338   $_MUX_
+     3879   $_NAND_
+      595   $_NOR_
+       20   $_NOT_
+      292   $_ORNOT_
+      600   $_OR_
+      817   $_XNOR_
+     1857   $_XOR_
+        2 submodules
+        1   $paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array
+        1   $paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100
+
+   Estimated number of transistors:      77930+
+
+16. Executing Verilog backend.
+
+16.1. Executing BMUXMAP pass.
+
+16.2. Executing DEMUXMAP pass.
+Dumping module `$paramod$8392c0aee371eac30cfcd917af9a6c37ac869d3e\pe'.
+Dumping module `$paramod$b7aa52978412a52faa4955331d5691a4550dea33\systolic_array'.
+Dumping module `$paramod\accelerator_controller\ARRAY_SIZE=s32'00000000000000000000000000000100'.
+Dumping module `\int8_accelerator_top'.
+
+Warnings: 2 unique messages, 6 total
+End of script. Logfile hash: 44e9ee08e4, time: 1.66s, user: 1.03s, system: 0.09s, MEM: 86.97 MB peak
+Yosys 0.69+post (git sha1 143eb14f9cc55d6f8927e68523b0c9d2166ed02c, Release, AppleClang clang++ 21.0.0.21000334)
+Time spent: 28% 1x abc (0 sec), 16% 41x opt_expr (0 sec), ...

@@ -1,0 +1,31 @@
+# Yosys Synthesis Script for INT8 Systolic Array Accelerator IP
+
+# 1. Read SystemVerilog sources
+read_verilog -sv rtl/pe.sv
+read_verilog -sv rtl/systolic_array.sv
+read_verilog -sv rtl/accelerator_controller.sv
+read_verilog -sv rtl/int8_accelerator_top.sv
+
+# 2. Check and elaborate design hierarchy
+hierarchy -check -top int8_accelerator_top
+
+# 3. High-level synthesis passes (RTL optimization)
+proc
+opt
+fsm
+opt
+memory
+opt
+
+# 4. Low-level mapping & technology mapping
+techmap
+opt
+
+# 5. Generic synthesis pass
+synth -top int8_accelerator_top
+
+# 6. Report gate counts, flip-flops, and cell statistics
+stat -tech cmos
+
+# 7. Write synthesized netlist
+write_verilog -noattr build/int8_accelerator_synth.v

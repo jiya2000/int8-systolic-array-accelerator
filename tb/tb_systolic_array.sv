@@ -21,11 +21,11 @@ module tb_systolic_array;
     logic                                            en;
     logic                                            clr;
     logic [ARRAY_SIZE-1:0]                           weight_en;
-    logic signed [DATA_WIDTH-1:0]                    w_in  [ARRAY_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0]                    a_in  [ARRAY_SIZE-1:0];
-    logic signed [ACC_WIDTH-1:0]                     c_in  [ARRAY_SIZE-1:0];
-    logic signed [DATA_WIDTH-1:0]                    a_out [ARRAY_SIZE-1:0];
-    logic signed [ACC_WIDTH-1:0]                     c_out [ARRAY_SIZE-1:0];
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    w_in;
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_in;
+    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_in;
+    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_out;
+    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_out;
 
     int test_count = 0;
     int pass_count = 0;
@@ -56,11 +56,6 @@ module tb_systolic_array;
     end
 
     // Test Matrices
-    // Weight Matrix B (4x4):
-    // [  1,  2,  3,  4 ]
-    // [  2,  1,  0, -1 ]
-    // [ -1, -2,  1,  2 ]
-    // [  0,  3, -2,  1 ]
     logic signed [DATA_WIDTH-1:0] B [4][4] = '{
         '{ 8'sd1,  8'sd2,  8'sd3,  8'sd4 },
         '{ 8'sd2,  8'sd1,  8'sd0, -8'sd1 },
@@ -68,11 +63,6 @@ module tb_systolic_array;
         '{ 8'sd0,  8'sd3, -8'sd2,  8'sd1 }
     };
 
-    // Activation Matrix A (4x4):
-    // [  2,  1,  3,  0 ]
-    // [  1, -2,  0,  4 ]
-    // [  3,  0, -1,  2 ]
-    // [ -1,  1,  2, -3 ]
     logic signed [DATA_WIDTH-1:0] A [4][4] = '{
         '{ 8'sd2,  8'sd1,  8'sd3,  8'sd0 },
         '{ 8'sd1, -8'sd2,  8'sd0,  8'sd4 },
@@ -80,11 +70,6 @@ module tb_systolic_array;
         '{-8'sd1,  8'sd1,  8'sd2, -8'sd3 }
     };
 
-    // Expected Output Matrix C = A x B:
-    // C[0] = [ 2*1+1*2+3*-1+0*0, 2*2+1*1+3*-2+0*3, 2*3+1*0+3*1+0*-2, 2*4+1*-1+3*2+0*1 ] = [  1, -1,  9, 13 ]
-    // C[1] = [ 1*1-2*2+0*-1+4*0, 1*2-2*1+0*-2+4*3, 1*3-2*0+0*1+4*-2, 1*4-2*-1+0*2+4*1 ] = [ -3, 12, -5, 10 ]
-    // C[2] = [ 3*1+0*2-1*-1+2*0, 3*2+0*1-1*-2+2*3, 3*3+0*0-1*1+2*-2, 3*4+0*-1-1*2+2*1 ] = [  4, 14,  4, 12 ]
-    // C[3] = [-1*1+1*2+2*-1-3*0,-1*2+1*1+2*-2-3*3,-1*3+1*0+2*1-3*-2,-1*4+1*-1+2*2-3*1 ] = [ -1,-14,  5, -4 ]
     logic signed [ACC_WIDTH-1:0] expected_C [4][4] = '{
         '{ 32'sd1, -32'sd1,  32'sd9, 32'sd13 },
         '{-32'sd3,  32'sd12, -32'sd5, 32'sd10 },
@@ -108,11 +93,9 @@ module tb_systolic_array;
         en        = 0;
         clr       = 0;
         weight_en = '0;
-        for (int i = 0; i < 4; i++) begin
-            w_in[i] = 0;
-            a_in[i] = 0;
-            c_in[i] = 0;
-        end
+        w_in      = '0;
+        a_in      = '0;
+        c_in      = '0;
 
         #(CLK_PERIOD * 2);
         @(negedge clk);
@@ -130,13 +113,10 @@ module tb_systolic_array;
         end
 
         @(negedge clk);
-        weight_en = '0; // All weights loaded
-        en        = 1;  // Enable compute datapath
+        weight_en = '0;
+        en        = 1;
 
         // 3. Feed Skewed Activations
-        // Row k is delayed by k cycles:
-        // Cycle t: feed a_in[k] = (t >= k && t < k+4) ? A[t-k][k] : 0
-        // Total cycles for feeding: 4 rows + 3 skew = 7 cycles (t = 0..6)
         $display("[INFO] Streaming skewed activations A into array...");
         fork
             // Feeder thread
@@ -152,24 +132,16 @@ module tb_systolic_array;
                             a_in[k] = 8'sd0;
                         end
                     end
-                    // c_in (top boundary) is always 0 for standard GEMM
-                    for (int c = 0; c < 4; c++) begin
-                        c_in[c] = 32'sd0;
-                    end
+                    c_in = '0;
                 end
             end
 
-            // Sampler thread:
-            // Element C[i][j] exits bottom (c_out[j]) at cycle t = i + 4 + j (measured from t=0)
+            // Sampler thread
             begin
-                // Wait for the first output to emerge
-                // C[0][0] exits at t = 4
-                // C[i][j] exits at t = i + 4 + j
                 for (int t = 0; t < 16; t++) begin
                     @(negedge clk);
                     for (int j = 0; j < 4; j++) begin
                         int i;
-                        // t = i + 4 + j - 1 (since sampled at negedge following cycle t)
                         i = t - 4 - j;
                         if (i >= 0 && i < 4) begin
                             actual_C[i][j] = c_out[j];
