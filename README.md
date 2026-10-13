@@ -215,9 +215,3 @@ make synth
 # Clean temporary build and simulation artifacts
 make clean
 ```
-
----
-
-## 8. License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
