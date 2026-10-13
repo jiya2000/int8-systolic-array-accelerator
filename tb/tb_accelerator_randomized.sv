@@ -2,9 +2,10 @@
 
 /**
  * Testbench: tb_accelerator_randomized
- * Description: High-volume randomized regression testbench for int8_accelerator_top.
- *              Executes 100 consecutive full 4x4 matrix multiplications (1,600 output elements).
- *              Computes expected matrix product in software on-the-fly and asserts bit-exact match.
+ * Description: 100-Matrix Randomized Stress Testbench for INT8 Systolic Array Accelerator.
+ *              Generates 100 pseudo-random 4x4 matrix pairs (A, W) in software,
+ *              streams them into the hardware accelerator, and validates every single
+ *              output element (1,600 total elements) against a golden software multiplier.
  */
 module tb_accelerator_randomized;
 
@@ -18,14 +19,14 @@ module tb_accelerator_randomized;
     logic                                            rst_n;
     logic                                            s_weight_valid;
     logic                                            s_weight_ready;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_weight_data;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_weight_data;
     logic                                            s_axis_tvalid;
     logic                                            s_axis_tready;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_axis_tdata;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_axis_tdata;
     logic                                            s_axis_tlast;
     logic                                            m_axis_tvalid;
     logic                                            m_axis_tready;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     m_axis_tdata;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]        m_axis_tdata;
     logic                                            m_axis_tlast;
     logic                                            busy;
     logic                                            done;
@@ -123,7 +124,7 @@ module tb_accelerator_randomized;
                 @(negedge clk);
                 s_weight_valid = 1;
                 for (int c = 0; c < 4; c++) begin
-                    s_weight_data[c] = W_test[r][c];
+                    s_weight_data[c*DATA_WIDTH +: DATA_WIDTH] = W_test[r][c];
                 end
             end
             @(negedge clk);
@@ -135,7 +136,7 @@ module tb_accelerator_randomized;
                 s_axis_tvalid = 1;
                 s_axis_tlast  = (r == 3);
                 for (int c = 0; c < 4; c++) begin
-                    s_axis_tdata[c] = A_test[r][c];
+                    s_axis_tdata[c*DATA_WIDTH +: DATA_WIDTH] = A_test[r][c];
                 end
             end
             @(negedge clk);
@@ -153,10 +154,12 @@ module tb_accelerator_randomized;
                     @(negedge clk);
                     m_axis_tready = 1;
                     for (int c = 0; c < 4; c++) begin
+                        logic signed [ACC_WIDTH-1:0] actual_val;
+                        actual_val = m_axis_tdata[c*ACC_WIDTH +: ACC_WIDTH];
                         total_elements_checked++;
-                        if (m_axis_tdata[c] !== expected_C[r][c]) begin
+                        if (actual_val !== expected_C[r][c]) begin
                             $display("[FAIL] Matrix %0d Mismatch at [%0d][%0d]: Got %0d, Exp %0d",
-                                     m, r, c, m_axis_tdata[c], expected_C[r][c]);
+                                     m, r, c, actual_val, expected_C[r][c]);
                             total_failures++;
                             matrix_errors++;
                         end
@@ -186,7 +189,7 @@ module tb_accelerator_randomized;
         if (total_failures == 0) begin
             $display(">>> ALL 100 RANDOMIZED MATRICES (1,600 ELEMENTS) PASSED BIT-ACCURATELY! <<<");
         end else begin
-            $display(">>> REGRESSION FAILURES DETECTED! <<<");
+            $display(">>> RANDOMIZED REGRESSION FAILURES DETECTED! <<<");
         end
 
         $finish;

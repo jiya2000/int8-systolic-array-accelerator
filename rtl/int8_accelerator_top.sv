@@ -9,7 +9,7 @@
  *                - Row-by-row Weight Configuration Port with direct handshake tracking
  *                - AXI-Stream-inspired Activation Input Port
  *                - AXI-Stream-inspired Result Output Port with full backpressure
- *              Uses packed multi-dimensional array ports for clean synthesis.
+ *              Uses flattened vector ports for 100% universal EDA synthesis compatibility.
  */
 module int8_accelerator_top #(
     parameter int ARRAY_SIZE = 4,
@@ -19,21 +19,21 @@ module int8_accelerator_top #(
     input  logic                                            clk,
     input  logic                                            rst_n,
 
-    // Weight Configuration Port (4 rows x 4 cols)
+    // Weight Configuration Port (4 rows x 4 cols flattened: 32 bits)
     input  logic                                            s_weight_valid,
     output logic                                            s_weight_ready,
-    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_weight_data,
+    input  logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_weight_data,
 
-    // Activation Input Stream (Row-by-row stream of 4x4 matrix A)
+    // Activation Input Stream (Row-by-row stream of 4x4 matrix A: 32 bits)
     input  logic                                            s_axis_tvalid,
     output logic                                            s_axis_tready,
-    input  logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_axis_tdata,
+    input  logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_axis_tdata,
     input  logic                                            s_axis_tlast,
 
-    // Result Output Stream (Row-by-row stream of 4x4 matrix C)
+    // Result Output Stream (Row-by-row stream of 4x4 matrix C: 128 bits)
     output logic                                            m_axis_tvalid,
     input  logic                                            m_axis_tready,
-    output logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     m_axis_tdata,
+    output logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]        m_axis_tdata,
     output logic                                            m_axis_tlast,
 
     // Accelerator Status
@@ -57,18 +57,18 @@ module int8_accelerator_top #(
     logic [ARRAY_SIZE-1:0]  weight_en_comb;
 
     // Buffer to hold Activation Matrix A (4 rows x 4 cols)
-    logic signed [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0][DATA_WIDTH-1:0] A_matrix;
+    logic signed [DATA_WIDTH-1:0] A_matrix [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0];
     logic [1:0]                   act_load_idx;
     logic                         act_loaded;
 
     // Skewed array input signals
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0] a_in_skewed;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]  c_in_boundary;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0] a_out_unused;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]  c_out_array;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0] a_in_skewed;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]  c_in_boundary;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0] a_out_unused;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]  c_out_array;
 
     // Result storage matrix (4 rows x 4 cols)
-    logic signed [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0][ACC_WIDTH-1:0] result_matrix;
+    logic signed [ACC_WIDTH-1:0]  result_matrix [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0];
     logic [1:0]                   out_stream_idx;
     logic                         out_streaming;
 
@@ -116,9 +116,15 @@ module int8_accelerator_top #(
         if (!rst_n) begin
             act_load_idx <= '0;
             act_loaded   <= 1'b0;
-            A_matrix     <= '0;
+            for (int r = 0; r < ARRAY_SIZE; r++) begin
+                for (int c = 0; c < ARRAY_SIZE; c++) begin
+                    A_matrix[r][c] <= '0;
+                end
+            end
         end else if (s_axis_tvalid && s_axis_tready) begin
-            A_matrix[act_load_idx] <= s_axis_tdata;
+            for (int c = 0; c < ARRAY_SIZE; c++) begin
+                A_matrix[act_load_idx][c] <= s_axis_tdata[c*DATA_WIDTH +: DATA_WIDTH];
+            end
 
             if (act_load_idx == ARRAY_SIZE - 1 || s_axis_tlast) begin
                 act_load_idx <= '0;
@@ -139,17 +145,18 @@ module int8_accelerator_top #(
     // Row k of array gets A[t - k][k] when 0 <= t - k < 4, else 0
     // -------------------------------------------------------------
     always_comb begin
-        for (int k = 0; k < ARRAY_SIZE; k++) begin
-            if (feeding_active && feed_cycle >= k && feed_cycle < (k + ARRAY_SIZE)) begin
-                case (feed_cycle - k)
-                    5'd0: a_in_skewed[k] = A_matrix[0][k];
-                    5'd1: a_in_skewed[k] = A_matrix[1][k];
-                    5'd2: a_in_skewed[k] = A_matrix[2][k];
-                    5'd3: a_in_skewed[k] = A_matrix[3][k];
-                    default: a_in_skewed[k] = '0;
-                endcase
-            end else begin
-                a_in_skewed[k] = '0;
+        a_in_skewed = '0;
+        if (feeding_active) begin
+            for (int k = 0; k < ARRAY_SIZE; k++) begin
+                if (feed_cycle >= k && feed_cycle < (k + ARRAY_SIZE)) begin
+                    case (feed_cycle - k)
+                        5'd0: a_in_skewed[k*DATA_WIDTH +: DATA_WIDTH] = A_matrix[0][k];
+                        5'd1: a_in_skewed[k*DATA_WIDTH +: DATA_WIDTH] = A_matrix[1][k];
+                        5'd2: a_in_skewed[k*DATA_WIDTH +: DATA_WIDTH] = A_matrix[2][k];
+                        5'd3: a_in_skewed[k*DATA_WIDTH +: DATA_WIDTH] = A_matrix[3][k];
+                        default: a_in_skewed[k*DATA_WIDTH +: DATA_WIDTH] = '0;
+                    endcase
+                end
             end
         end
     end
@@ -209,7 +216,7 @@ module int8_accelerator_top #(
                         result_matrix[r_res][c_res] <= '0;
                     end else if (array_en) begin
                         if (feed_cycle == (r_res + 4 + c_res)) begin
-                            result_matrix[r_res][c_res] <= c_out_array[c_res];
+                            result_matrix[r_res][c_res] <= c_out_array[c_res*ACC_WIDTH +: ACC_WIDTH];
                         end
                     end
                 end
@@ -244,7 +251,13 @@ module int8_accelerator_top #(
     // Assign Output Stream Signals
     assign m_axis_tvalid = out_streaming;
     assign m_axis_tlast  = out_streaming && (out_stream_idx == ARRAY_SIZE - 1);
-    assign m_axis_tdata  = result_matrix[out_stream_idx];
+
+    genvar out_c;
+    generate
+        for (out_c = 0; out_c < ARRAY_SIZE; out_c++) begin : gen_out_stream
+            assign m_axis_tdata[out_c*ACC_WIDTH +: ACC_WIDTH] = result_matrix[out_stream_idx][out_c];
+        end
+    endgenerate
 
     assign busy = ctrl_busy || out_streaming || act_loaded;
     assign done = ctrl_done;

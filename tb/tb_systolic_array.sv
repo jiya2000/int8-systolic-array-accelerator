@@ -21,11 +21,11 @@ module tb_systolic_array;
     logic                                            en;
     logic                                            clr;
     logic [ARRAY_SIZE-1:0]                           weight_en;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    w_in;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_in;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_in;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    a_out;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     c_out;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       w_in;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]    a_in;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]     c_in;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]    a_out;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]     c_out;
 
     int test_count = 0;
     int pass_count = 0;
@@ -105,11 +105,11 @@ module tb_systolic_array;
         $display("[INFO] Loading 4x4 weights B into stationary registers...");
         for (int r = 0; r < 4; r++) begin
             @(negedge clk);
-            weight_en    = (1 << r);
-            w_in[0]      = B[r][0];
-            w_in[1]      = B[r][1];
-            w_in[2]      = B[r][2];
-            w_in[3]      = B[r][3];
+            weight_en                 = (1 << r);
+            w_in[0*DATA_WIDTH +: DATA_WIDTH] = B[r][0];
+            w_in[1*DATA_WIDTH +: DATA_WIDTH] = B[r][1];
+            w_in[2*DATA_WIDTH +: DATA_WIDTH] = B[r][2];
+            w_in[3*DATA_WIDTH +: DATA_WIDTH] = B[r][3];
         end
 
         @(negedge clk);
@@ -127,9 +127,9 @@ module tb_systolic_array;
                         int a_row;
                         a_row = t - k;
                         if (a_row >= 0 && a_row < 4) begin
-                            a_in[k] = A[a_row][k];
+                            a_in[k*DATA_WIDTH +: DATA_WIDTH] = A[a_row][k];
                         end else begin
-                            a_in[k] = 8'sd0;
+                            a_in[k*DATA_WIDTH +: DATA_WIDTH] = 8'sd0;
                         end
                     end
                     c_in = '0;
@@ -144,7 +144,7 @@ module tb_systolic_array;
                         int i;
                         i = t - 4 - j;
                         if (i >= 0 && i < 4) begin
-                            actual_C[i][j] = c_out[j];
+                            actual_C[i][j] = c_out[j*ACC_WIDTH +: ACC_WIDTH];
                         end
                     end
                 end

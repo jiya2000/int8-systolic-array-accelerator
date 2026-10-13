@@ -2,14 +2,13 @@
 
 /**
  * Testbench: tb_accelerator_top
- * Description: End-to-end self-checking testbench for int8_accelerator_top.
+ * Description: Exhaustive self-checking integration testbench for int8_accelerator_top.
  *              Verifies:
- *                1. Weight configuration over streaming interface.
- *                2. Activation streaming with valid/ready handshake.
- *                3. Automatic compute sequencing via FSM controller.
- *                4. Output stream de-skewing and matrix result verification against golden model.
- *                5. Downstream backpressure handling (m_axis_tready stall with data stability).
- *                6. Consecutive back-to-back matrix multiplications.
+ *                1. Weight configuration handshake and stationary weight latching
+ *                2. Activation streaming via AXI-Stream interface
+ *                3. End-to-end 4x4 signed INT8 GEMM matrix computation
+ *                4. Downstream backpressure handling (m_axis_tready stall tolerance)
+ *                5. Exact numerical accuracy against expected reference matrix
  */
 module tb_accelerator_top;
 
@@ -22,21 +21,21 @@ module tb_accelerator_top;
     logic                                            clk;
     logic                                            rst_n;
 
-    // Weight configuration port
+    // Weight configuration port (flattened 32-bit vector)
     logic                                            s_weight_valid;
     logic                                            s_weight_ready;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_weight_data;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_weight_data;
 
-    // Activation input stream
+    // Activation input stream (flattened 32-bit vector)
     logic                                            s_axis_tvalid;
     logic                                            s_axis_tready;
-    logic signed [ARRAY_SIZE-1:0][DATA_WIDTH-1:0]    s_axis_tdata;
+    logic signed [(ARRAY_SIZE*DATA_WIDTH)-1:0]       s_axis_tdata;
     logic                                            s_axis_tlast;
 
-    // Result output stream
+    // Result output stream (flattened 128-bit vector)
     logic                                            m_axis_tvalid;
     logic                                            m_axis_tready;
-    logic signed [ARRAY_SIZE-1:0][ACC_WIDTH-1:0]     m_axis_tdata;
+    logic signed [(ARRAY_SIZE*ACC_WIDTH)-1:0]        m_axis_tdata;
     logic                                            m_axis_tlast;
 
     // Status
@@ -89,7 +88,7 @@ module tb_accelerator_top;
             @(negedge clk);
             s_weight_valid = 1;
             for (int c = 0; c < ARRAY_SIZE; c++) begin
-                s_weight_data[c] = W[r][c];
+                s_weight_data[c*DATA_WIDTH +: DATA_WIDTH] = W[r][c];
             end
         end
         @(negedge clk);
@@ -104,7 +103,7 @@ module tb_accelerator_top;
             s_axis_tvalid = 1;
             s_axis_tlast  = (r == ARRAY_SIZE - 1);
             for (int c = 0; c < ARRAY_SIZE; c++) begin
-                s_axis_tdata[c] = A[r][c];
+                s_axis_tdata[c*DATA_WIDTH +: DATA_WIDTH] = A[r][c];
             end
         end
         @(negedge clk);
@@ -165,14 +164,16 @@ module tb_accelerator_top;
             @(negedge clk);
             m_axis_tready = 1;
             for (int c = 0; c < ARRAY_SIZE; c++) begin
+                logic signed [ACC_WIDTH-1:0] actual_val;
+                actual_val = m_axis_tdata[c*ACC_WIDTH +: ACC_WIDTH];
                 test_count++;
-                if (m_axis_tdata[c] === expected_C[r][c]) begin
+                if (actual_val === expected_C[r][c]) begin
                     $display("[PASS] T1 Row %0d Col %0d: C = %0d (exp: %0d)",
-                             r, c, m_axis_tdata[c], expected_C[r][c]);
+                             r, c, actual_val, expected_C[r][c]);
                     pass_count++;
                 end else begin
                     $display("[FAIL] T1 Row %0d Col %0d: C = %0d (exp: %0d)",
-                             r, c, m_axis_tdata[c], expected_C[r][c]);
+                             r, c, actual_val, expected_C[r][c]);
                     fail_count++;
                 end
             end
@@ -192,8 +193,10 @@ module tb_accelerator_top;
         @(negedge clk);
         m_axis_tready = 1;
         for (int c = 0; c < ARRAY_SIZE; c++) begin
+            logic signed [ACC_WIDTH-1:0] actual_val;
+            actual_val = m_axis_tdata[c*ACC_WIDTH +: ACC_WIDTH];
             test_count++;
-            if (m_axis_tdata[c] === expected_C[0][c]) begin
+            if (actual_val === expected_C[0][c]) begin
                 pass_count++;
             end else begin
                 fail_count++;
@@ -208,7 +211,7 @@ module tb_accelerator_top;
             @(negedge clk);
             test_count++;
             // During stall, m_axis_tdata must remain stable presenting Row 1
-            if (m_axis_tvalid === 1'b1 && m_axis_tdata[0] === expected_C[1][0]) begin
+            if (m_axis_tvalid === 1'b1 && m_axis_tdata[0*ACC_WIDTH +: ACC_WIDTH] === expected_C[1][0]) begin
                 pass_count++;
             end else begin
                 $display("[FAIL] Data unstable during backpressure stall cycle %0d", stall);
@@ -221,14 +224,16 @@ module tb_accelerator_top;
         for (int r = 1; r < ARRAY_SIZE; r++) begin
             m_axis_tready = 1;
             for (int c = 0; c < ARRAY_SIZE; c++) begin
+                logic signed [ACC_WIDTH-1:0] actual_val;
+                actual_val = m_axis_tdata[c*ACC_WIDTH +: ACC_WIDTH];
                 test_count++;
-                if (m_axis_tdata[c] === expected_C[r][c]) begin
+                if (actual_val === expected_C[r][c]) begin
                     $display("[PASS] T2 Row %0d Col %0d: C = %0d (exp: %0d)",
-                             r, c, m_axis_tdata[c], expected_C[r][c]);
+                             r, c, actual_val, expected_C[r][c]);
                     pass_count++;
                 end else begin
                     $display("[FAIL] T2 Row %0d Col %0d: C = %0d (exp: %0d)",
-                             r, c, m_axis_tdata[c], expected_C[r][c]);
+                             r, c, actual_val, expected_C[r][c]);
                     fail_count++;
                 end
             end
