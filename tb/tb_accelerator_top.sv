@@ -78,26 +78,9 @@ module tb_accelerator_top;
     end
 
     // Test Matrices
-    logic signed [DATA_WIDTH-1:0] W [4][4] = '{
-        '{ 8'sd1,  8'sd2,  8'sd3,  8'sd4 },
-        '{ 8'sd2,  8'sd1,  8'sd0, -8'sd1 },
-        '{-8'sd1, -8'sd2,  8'sd1,  8'sd2 },
-        '{ 8'sd0,  8'sd3, -8'sd2,  8'sd1 }
-    };
-
-    logic signed [DATA_WIDTH-1:0] A [4][4] = '{
-        '{ 8'sd2,  8'sd1,  8'sd3,  8'sd0 },
-        '{ 8'sd1, -8'sd2,  8'sd0,  8'sd4 },
-        '{ 8'sd3,  8'sd0, -8'sd1,  8'sd2 },
-        '{-8'sd1,  8'sd1,  8'sd2, -8'sd3 }
-    };
-
-    logic signed [ACC_WIDTH-1:0] expected_C [4][4] = '{
-        '{ 32'sd1, -32'sd1,  32'sd9, 32'sd13 },
-        '{-32'sd3,  32'sd12, -32'sd5, 32'sd10 },
-        '{ 32'sd4,  32'sd14,  32'sd4, 32'sd12 },
-        '{-32'sd1, -32'sd14,  32'sd5, -32'sd4 }
-    };
+    logic signed [DATA_WIDTH-1:0] W [4][4];
+    logic signed [DATA_WIDTH-1:0] A [4][4];
+    logic signed [ACC_WIDTH-1:0]  expected_C [4][4];
 
     // Task to configure weights
     task automatic load_weights();
@@ -131,6 +114,24 @@ module tb_accelerator_top;
 
     // Main Test Sequence
     initial begin
+        // Initialize Matrix W
+        W[0][0] =  8'sd1; W[0][1] =  8'sd2; W[0][2] =  8'sd3; W[0][3] =  8'sd4;
+        W[1][0] =  8'sd2; W[1][1] =  8'sd1; W[1][2] =  8'sd0; W[1][3] = -8'sd1;
+        W[2][0] = -8'sd1; W[2][1] = -8'sd2; W[2][2] =  8'sd1; W[2][3] =  8'sd2;
+        W[3][0] =  8'sd0; W[3][1] =  8'sd3; W[3][2] = -8'sd2; W[3][3] =  8'sd1;
+
+        // Initialize Matrix A
+        A[0][0] =  8'sd2; A[0][1] =  8'sd1; A[0][2] =  8'sd3; A[0][3] =  8'sd0;
+        A[1][0] =  8'sd1; A[1][1] = -8'sd2; A[1][2] =  8'sd0; A[1][3] =  8'sd4;
+        A[2][0] =  8'sd3; A[2][1] =  8'sd0; A[2][2] = -8'sd1; A[2][3] =  8'sd2;
+        A[3][0] = -8'sd1; A[3][1] =  8'sd1; A[3][2] =  8'sd2; A[3][3] = -8'sd3;
+
+        // Initialize Expected Result Matrix C = A x W
+        expected_C[0][0] =  32'sd1; expected_C[0][1] = -32'sd1;  expected_C[0][2] =  32'sd9; expected_C[0][3] =  32'sd13;
+        expected_C[1][0] = -32'sd3; expected_C[1][1] =  32'sd12; expected_C[1][2] = -32'sd5; expected_C[1][3] =  32'sd10;
+        expected_C[2][0] =  32'sd4; expected_C[2][1] =  32'sd14; expected_C[2][2] =  32'sd4; expected_C[2][3] =  32'sd12;
+        expected_C[3][0] = -32'sd1; expected_C[3][1] = -32'sd14; expected_C[3][2] =  32'sd5; expected_C[3][3] = -32'sd4;
+
         $dumpfile("accelerator_top_waves.vcd");
         $dumpvars(0, tb_accelerator_top);
 
