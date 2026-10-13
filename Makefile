@@ -1,10 +1,10 @@
 # Makefile: Complete INT8 Systolic Array Accelerator IP Automation Flow
 SHELL := /bin/bash
 
-IVL = /opt/homebrew/bin/iverilog
-VVP = /opt/homebrew/bin/vvp
-YOSYS = /opt/homebrew/bin/yosys
-PYTHON = $(shell pwd)/.venv/bin/python3
+IVL ?= $(shell which iverilog 2>/dev/null || echo /opt/homebrew/bin/iverilog)
+VVP ?= $(shell which vvp 2>/dev/null || echo /opt/homebrew/bin/vvp)
+YOSYS ?= $(shell which yosys 2>/dev/null || echo /opt/homebrew/bin/yosys)
+PYTHON ?= $(shell which python3)
 
 BUILD_DIR = build
 REPORTS_DIR = reports
@@ -60,10 +60,11 @@ sim_randomized:
 	$(IVL) -g2012 -o $(BUILD_DIR)/randomized_sim rtl/pe.sv rtl/systolic_array.sv rtl/accelerator_controller.sv rtl/int8_accelerator_top.sv tb/tb_accelerator_randomized.sv
 	$(VVP) $(BUILD_DIR)/randomized_sim
 
-# Cocotb Python Verification
 test_cocotb:
 	@echo "--- Running Cocotb Python Verification ---"
-	@export PATH="/opt/homebrew/bin:$$PATH" && source .venv/bin/activate && make -f tb/Makefile.pe
+	@export PATH="/opt/homebrew/bin:$$PATH" && \
+	if [ -f .venv/bin/activate ]; then source .venv/bin/activate; fi && \
+	make -f tb/Makefile.pe
 
 # Yosys Synthesis
 synth:

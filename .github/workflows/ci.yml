@@ -1,0 +1,45 @@
+name: Hardware CI & Synthesis Regression
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-and-synthesize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Hardware EDA Tools (Icarus Verilog & Yosys)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Verification Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cocotb pytest
+
+      - name: Run SystemVerilog Self-Checking Regressions
+        run: make test_sv
+
+      - name: Run Cocotb Python Co-Simulation (1,000 Vectors)
+        run: make test_cocotb
+
+      - name: Run Yosys Logic Synthesis & Gate Extraction
+        run: make synth
+
+      - name: Archive Synthesis Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: yosys-synthesis-report
+          path: reports/synthesis_stats.txt
