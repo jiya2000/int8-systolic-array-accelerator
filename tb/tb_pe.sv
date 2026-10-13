@@ -57,6 +57,13 @@ module tb_pe;
         forever #(CLK_PERIOD / 2) clk = ~clk;
     end
 
+    // Watchdog Timer for Deadlock Prevention
+    initial begin
+        #1_000_000; // 1 ms timeout
+        $display("[FATAL] Watchdog timeout expired in tb_pe! Simulation deadlocked.");
+        $fatal(1, "tb_pe deadlock detected.");
+    end
+
     // Task to drive inputs cleanly on negedge and sample on the following negedge
     task automatic step_and_check(
         input string description,

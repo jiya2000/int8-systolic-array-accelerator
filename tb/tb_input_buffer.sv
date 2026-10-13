@@ -59,6 +59,13 @@ module tb_input_buffer;
         forever #(CLK_PERIOD / 2) clk = ~clk;
     end
 
+    // Watchdog Timer for Deadlock Prevention
+    initial begin
+        #1_000_000; // 1 ms timeout
+        $display("[FATAL] Watchdog timeout expired in tb_input_buffer! Simulation deadlocked.");
+        $fatal(1, "tb_input_buffer deadlock detected.");
+    end
+
     // Test Sequence
     initial begin
         $display("================================================================");

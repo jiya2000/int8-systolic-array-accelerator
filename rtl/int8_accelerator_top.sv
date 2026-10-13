@@ -42,19 +42,17 @@ module int8_accelerator_top #(
 );
 
     // Controller signals
-    logic                   start_compute;
-    logic                   compute_ready;
-    logic                   array_en;
-    logic                   array_clr;
-    logic [4:0]             feed_cycle;
-    logic                   feeding_active;
-    logic                   ctrl_busy;
-    logic                   ctrl_done;
-
-    // Weight loading tracking
-    logic [1:0]             weight_row_cnt;
-    logic                   weights_loaded;
-    logic [ARRAY_SIZE-1:0]  weight_en_comb;
+    logic                                ctrl_weight_ready;
+    logic                                ctrl_weights_loaded;
+    logic [ARRAY_SIZE-1:0]               ctrl_weight_en;
+    logic                                start_compute;
+    logic                                compute_ready;
+    logic                                array_en;
+    logic                                array_clr;
+    logic [4:0]                          feed_cycle;
+    logic                                feeding_active;
+    logic                                ctrl_busy;
+    logic                                ctrl_done;
 
     // Buffer to hold Activation Matrix A (4 rows x 4 cols)
     logic signed [DATA_WIDTH-1:0] A_matrix [ARRAY_SIZE-1:0][ARRAY_SIZE-1:0];
@@ -77,35 +75,10 @@ module int8_accelerator_top #(
 
     // -------------------------------------------------------------
     // Weight Configuration Port Handshake
+    // Gated by output streaming to prevent resource contention
     // -------------------------------------------------------------
-    assign s_weight_ready = !ctrl_busy && !out_streaming;
-
-    // Combinational one-hot weight enable to PEs
-    always_comb begin
-        weight_en_comb = '0;
-        if (s_weight_valid && s_weight_ready) begin
-            case (weight_row_cnt)
-                2'd0: weight_en_comb = 4'b0001;
-                2'd1: weight_en_comb = 4'b0010;
-                2'd2: weight_en_comb = 4'b0100;
-                2'd3: weight_en_comb = 4'b1000;
-            endcase
-        end
-    end
-
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            weight_row_cnt <= '0;
-            weights_loaded <= 1'b0;
-        end else if (s_weight_valid && s_weight_ready) begin
-            if (weight_row_cnt == ARRAY_SIZE - 1) begin
-                weight_row_cnt <= '0;
-                weights_loaded <= 1'b1;
-            end else begin
-                weight_row_cnt <= weight_row_cnt + 1'b1;
-            end
-        end
-    end
+    wire weight_valid_gated = s_weight_valid && !out_streaming;
+    assign s_weight_ready   = ctrl_weight_ready && !out_streaming;
 
     // -------------------------------------------------------------
     // Activation Stream Buffer Handshake
@@ -138,7 +111,7 @@ module int8_accelerator_top #(
     end
 
     // Compute triggers once both weights and activations are buffered
-    assign start_compute = weights_loaded && act_loaded && compute_ready && !ctrl_busy && !out_streaming;
+    assign start_compute = ctrl_weights_loaded && act_loaded && compute_ready && !ctrl_busy && !out_streaming;
 
     // -------------------------------------------------------------
     // Activation Skewing Logic
@@ -167,20 +140,20 @@ module int8_accelerator_top #(
     accelerator_controller #(
         .ARRAY_SIZE(ARRAY_SIZE)
     ) u_controller (
-        .clk               (clk),
-        .rst_n             (rst_n),
-        .start_weight_load (1'b0),
-        .start_compute     (start_compute),
-        .weight_load_ready (),
-        .compute_ready     (compute_ready),
-        .array_en          (array_en),
-        .array_clr         (array_clr),
-        .weight_en         (),
-        .weight_row_idx    (),
-        .feed_cycle        (feed_cycle),
-        .feeding_active    (feeding_active),
-        .busy              (ctrl_busy),
-        .done              (ctrl_done)
+        .clk            (clk),
+        .rst_n          (rst_n),
+        .weight_valid   (weight_valid_gated),
+        .weight_ready   (ctrl_weight_ready),
+        .weights_loaded (ctrl_weights_loaded),
+        .weight_en      (ctrl_weight_en),
+        .start_compute  (start_compute),
+        .compute_ready  (compute_ready),
+        .array_en       (array_en),
+        .array_clr      (array_clr),
+        .feed_cycle     (feed_cycle),
+        .feeding_active (feeding_active),
+        .busy           (ctrl_busy),
+        .done           (ctrl_done)
     );
 
     // -------------------------------------------------------------
@@ -195,7 +168,7 @@ module int8_accelerator_top #(
         .rst_n     (rst_n),
         .en        (array_en),
         .clr       (array_clr),
-        .weight_en (weight_en_comb),
+        .weight_en (ctrl_weight_en),
         .w_in      (s_weight_data),
         .a_in      (a_in_skewed),
         .c_in      (c_in_boundary),

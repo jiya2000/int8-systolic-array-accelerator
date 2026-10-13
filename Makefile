@@ -61,9 +61,11 @@ sim_randomized:
 	$(VVP) $(BUILD_DIR)/randomized_sim
 
 test_cocotb:
-	@echo "--- Running Cocotb Python Verification ---"
+	@echo "--- Running Independent Python Reference Suite & Cocotb ---"
 	@export PATH="/opt/homebrew/bin:$$PATH" && \
 	if [ -f .venv/bin/activate ]; then source .venv/bin/activate; fi && \
+	$(PYTHON) tb/reference_model.py && \
+	$(PYTHON) sim/golden_model.py && \
 	make -f tb/Makefile.pe
 
 # Yosys Synthesis

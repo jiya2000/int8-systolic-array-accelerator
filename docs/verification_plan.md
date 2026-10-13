@@ -48,14 +48,16 @@ The primary objective is to verify functional correctness, cycle-accurate timing
 
 ## 2. Test Hierarchy & Testbench Suite
 
-| Testbench File | Target Module | Scope | Test Count | Pass Criteria |
-| :--- | :--- | :--- | :---: | :--- |
-| `tb/tb_pe.sv` | `pe.sv` | Processing Element Directed Unit Tests | 25 | All signed arithmetic & control priorities match expected |
-| `tb/test_pe.py` | `pe.sv` | Cocotb Random & Directed Verification | 1,000 | 1,000 randomized transactions match Python bit-exact model |
-| `tb/tb_systolic_array.sv` | `systolic_array.sv` | 4×4 Core Grid GEMM Test | 16 | All 16 output matrix elements match golden matrix |
-| `tb/tb_input_buffer.sv` | `input_buffer.sv` | FIFO Handshake & Backpressure | 14 | Zero data corruption under full, empty, backpressure stalls |
-| `tb/tb_accelerator_top.sv` | `int8_accelerator_top.sv` | Top-Level Integration & Backpressure | 35 | End-to-end streaming GEMM + 3-cycle stall resilience |
-| `tb/tb_accelerator_randomized.sv` | `int8_accelerator_top.sv` | 100-Matrix Stress Regression | 1,600 | 100 random 4×4 GEMMs (1,600 elements) computed bit-accurately |
+| Testbench File | Target Module | Scope | Transactions | Matrix Elements Checked | Assertions / Protocol Checks | Pass Criteria |
+| :--- | :--- | :--- | :---: | :---: | :---: | :--- |
+| `tb/tb_pe.sv` | `pe.sv` | Processing Element Directed Unit Tests | 25 steps | 25 scalar values | 25 assertions | All signed arithmetic & control priorities match expected |
+| `tb/test_pe.py` | `pe.sv` | Cocotb Random & Directed Verification | 1,008 trans | 1,008 scalar values | 1,008 assertions | 1,000 randomized transactions match Python bit-exact model |
+| `tb/tb_systolic_array.sv` | `systolic_array.sv` | 4×4 Core Grid GEMM Test | 1 GEMM | 16 elements | 16 assertions | All 16 output matrix elements match golden matrix |
+| `tb/tb_input_buffer.sv` | `input_buffer.sv` | FIFO Handshake & Backpressure (Standalone IP) | 24 words | 8 FIFO entries | 14 assertions | Zero data corruption under full, empty, backpressure stalls |
+| `tb/tb_accelerator_top.sv` | `int8_accelerator_top.sv` | Top-Level Integration, Stalls & Extremes | 6 GEMMs (T1–T5) | 96 elements | 130 assertions | End-to-end streaming GEMM + 4-cycle stall resilience + input backpressure + extremes |
+| `tb/tb_accelerator_randomized.sv` | `int8_accelerator_top.sv` | 100-Matrix Stress Regression | 100 GEMMs | 1,600 elements | 1,700 assertions | 100 random 4×4 GEMMs (1,600 elements) computed bit-accurately |
+| `tb/reference_model.py` | Python Reference | Independent Integer Reference Model | 513 GEMMs | 8,016 elements | 8,016 element checks | 8 phases including 500 GEMMs, signed corners, and modulo arithmetic |
+| `sim/golden_model.py` | Python Reference | Golden Architecture Reference Suite | Directed suites | All elements | Directed validations | Verification of timing skew, de-skew, and signed INT8 math |
 
 ---
 
@@ -73,25 +75,30 @@ The primary objective is to verify functional correctness, cycle-accurate timing
 - **Weight Write Priority (`weight_en = 1`):** Overrides `en`. Latches new weight while freezing `a_out` and `c_out`.
 - **Datapath Stall (`en = 0`):** Freezes all output registers.
 - **Synchronous Clear (`clr = 1`):** Resets `c_out` to 0 on the rising clock edge while passing `a_in` to `a_out`.
+- **Weight Loading Flow Control:** One-hot `weight_en` asserted strictly during handshake cycles (`valid && ready`), auto-advancing row index, asserting `weights_loaded` upon 4 rows, and asserting backpressure (`ready = 0`) while busy.
 
 ### 3.3 Streaming & Backpressure Robustness
 - **FIFO Boundary Conditions:** Write to full (dropped/refused), read from empty (suppressed), concurrent read/write at full and empty thresholds.
 - **Downstream Backpressure (`m_axis_tready = 0`):**
-  - Stalls output streaming for 3 consecutive clock cycles.
-  - Verifies that data remains stable on `m_axis_tdata` without skipping rows or duplicating transfers.
+  - Stalls output streaming for 4 consecutive clock cycles mid-stream (Row 1) and end-of-packet (Row 3 with `tlast = 1`).
+  - Verifies that data remains stable on `m_axis_tdata`, `m_axis_tvalid`, and `m_axis_tlast` without skipping rows or duplicating transfers.
+- **Input Backpressure (`s_axis_tready = 0`):**
+  - Asserts backpressure while accelerator is busy. Arriving data is held stable until accelerator completes compute, verifying zero dropped or corrupted words.
+- **Back-to-Back GEMM & Dynamic Reconfiguration:**
+  - Validates sequential GEMMs with persistent weights, followed by dynamic reprogramming with an identity matrix.
 
 ---
 
 ## 4. Python Reference Models
 
 Two bit-exact Python reference models are maintained:
-1. `tb/reference_model.py`: Used in Cocotb testing. Implements `int8_clamp` and `int32_clamp` functions that reproduce signed two's complement wrapping modulo $2^{32}$.
+1. `tb/reference_model.py`: Used in Python verification regression. Implements `int8_clamp` and `int32_clamp` functions that reproduce signed two's complement wrapping modulo $2^{32}$, verified against 500 randomized GEMMs (8,000 elements) and signed boundary conditions.
 2. `sim/golden_model.py`: Provides software matrix multiplication reference generators, skew/de-skew timing simulators, and test vector generators.
 
 ---
 
 ## 5. Acceptance Criteria
 
-- **Functional Regression:** 100% test pass rate across all 6 test suites. Zero failures.
-- **Warning Count:** Zero synthesis latch warnings, zero port width mismatch warnings.
+- **Functional Regression:** 100% test pass rate across all SystemVerilog and Python test suites. Zero failures.
+- **Warning Count:** Zero synthesis latch warnings, zero port width mismatch warnings (`CHECK pass: Found and reported 0 problems`).
 - **Reproducibility:** Single-command execution via `make test` completes cleanly and non-interactively.

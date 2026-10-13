@@ -141,17 +141,19 @@ The array arranges 16 PEs in a $4 \times 4$ 2D mesh:
 
 ### 3.3 Streaming Input Buffer FIFO (`input_buffer.sv`)
 
-The synchronous circular FIFO decouples upstream data production from downstream compute consumption:
+The synchronous circular FIFO (`input_buffer.sv`) is an independent, reusable streaming FIFO IP module designed for system-level integration:
+- **Architecture:** Standalone modular buffer IP (not embedded directly into `int8_accelerator_top`, which uses a dedicated registered matrix bank `A_matrix` for multi-cycle synchronous skew scheduling).
 - **Depth:** Parameterized (default 8 entries).
 - **Width:** Parameterized (default 32 bits = 4 packed INT8 values).
-- **Handshaking:** AXI-Stream compatible `s_valid`/`s_ready` (write port) and `m_valid`/`m_ready` (read port).
+- **Handshaking:** Fully compliant AXI-Stream compatible `s_valid`/`s_ready` (write port) and `m_valid`/`m_ready` (read port).
 - **Simultaneous Access:** Read and write pointers advance concurrently when both interfaces handshake on the same clock edge without losing data integrity or corrupting occupancy counters.
+- **Verification:** Verified standalone with 14 self-checking tests covering empty, full, simultaneous read/write, and backpressure stall conditions.
 
 ---
 
 ### 3.4 Accelerator FSM Controller (`accelerator_controller.sv`)
 
-The controller orchestrates operational phases via a 4-state Mealy/Moore FSM:
+The controller orchestrates operational phases via a 4-state Mealy/Moore FSM with robust handshake flow control:
 
 ```
                   +--------------+
@@ -161,25 +163,29 @@ The controller orchestrates operational phases via a 4-state Mealy/Moore FSM:
                           v                                  |
                +----------------------+                      |
                |     LOAD_WEIGHTS     |                      |
-               | (Cycles 0..3: Rows)  |                      |
+               | (Handshake per row)  |                      |
                +----------+-----------+                      |
-                          | 4 cycles complete                |
+                          | 4 rows handshaked                |
                           v                                  |
                +----------------------+                      |
                |    FEED_AND_DRAIN    |                      |
-               | (Cycles 0..15: GEMM) |                      |
+               | (Cycles 0..10: GEMM) |                      |
                +----------+-----------+                      |
-                          | Pipeline drain finished          |
+                          | 11 cycles finish                 |
                           v                                  |
                +----------------------+                      |
                |       COMPLETE       | ---------------------+
                +----------------------+   m_axis stream done
 ```
 
-- **`IDLE` (State `00`):** Ready for weight configuration or activation streaming.
-- **`LOAD_WEIGHTS` (State `01`):** Steps `cycle_cnt` from 0 to 3, asserting one-hot $weight\_en[r]$ sequentially.
-- **`FEED_AND_DRAIN` (State `10`):** Compute phase. Enables the systolic array datapath (`array_en = 1`) for 16 cycles while tracking activation feed and accumulation drain.
-- **`COMPLETE` (State `11`):** Asserts `ctrl_done`, transitioning to output streaming.
+- **`IDLE` (State `00`):** Ready for weight configuration or activation streaming. If `s_weight_valid` asserts, `s_weight_ready = 1` and transitions to `LOAD_WEIGHTS`.
+- **`LOAD_WEIGHTS` (State `01`):** 
+  - Weight row is accepted strictly on clock edges where `s_weight_valid && s_weight_ready`.
+  - Asserts one-hot `weight_en = (1 << weight_row_cnt)` to capture the incoming row in the targeted systolic array row.
+  - Upon accepting all 4 rows, asserts `weights_loaded = 1` and returns to `IDLE` with stationary weights preserved.
+- **`FEED_AND_DRAIN` (State `10`):** Compute phase. Enables the systolic array datapath (`array_en = 1`) for exactly 11 cycles (`cycle_cnt` 0 to 10), completing the entire systolic feed, accumulation, and drain schedule.
+- **`COMPLETE` (State `11`):** Asserts `ctrl_done`, transitioning to output streaming. Freezes until all 4 rows are handshaked via `m_axis_tready`, whereupon `stream_done` returns FSM to `IDLE`.
+- **Weight Protection:** Whenever `busy = 1` (`FEED_AND_DRAIN` or `COMPLETE`), `s_weight_ready = 0` is enforced to prevent in-flight weight corruption.
 
 ---
 

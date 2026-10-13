@@ -55,6 +55,13 @@ module tb_systolic_array;
         forever #(CLK_PERIOD / 2) clk = ~clk;
     end
 
+    // Watchdog Timer for Deadlock Prevention
+    initial begin
+        #1_000_000; // 1 ms timeout
+        $display("[FATAL] Watchdog timeout expired in tb_systolic_array! Simulation deadlocked.");
+        $fatal(1, "tb_systolic_array deadlock detected.");
+    end
+
     // Test Matrices
     logic signed [DATA_WIDTH-1:0] B [4][4];
     logic signed [DATA_WIDTH-1:0] A [4][4];
